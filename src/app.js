@@ -68,6 +68,7 @@ export class App {
   }
 
   renderHeader() {
+    const isPerfect = analyticsService.isPerfectDay(this.habits, this.progress);
     const header = document.createElement('header');
     header.className = 'header';
 
@@ -80,6 +81,7 @@ export class App {
           <h1>Habits Tracker</h1>
           <p>Build better habits, one day at a time</p>
         </div>
+        ${isPerfect ? '<h2 class="trophy">🏆 All today\'s habits done!</h2>' : ''}
       </div>
       <div class="header-actions">
         <button class="btn btn-icon" id="theme-toggle" aria-label="Przełącz motyw">
