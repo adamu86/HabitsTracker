@@ -55,8 +55,8 @@ export class HabitCard {
           ${icon}
         </div>
         <div class="habit-info">
-          <h3>${this.escapeHtml(this.habit.name)}</h3>
-          ${this.habit.description ? `<p>${this.escapeHtml(this.habit.description)}</p>` : ''}
+          <h3>${this.habit.name}</h3>
+          ${this.habit.description ? `<p>${this.habit.description}</p>` : ''}
         </div>
         ${!this.isReadOnly ? `
           <div class="habit-actions">
@@ -124,11 +124,5 @@ export class HabitCard {
         ${completed ? '<span class="check-icon">✓</span>' : ''}
       </button>
     `;
-  }
-
-  escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
   }
 }
