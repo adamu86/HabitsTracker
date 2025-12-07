@@ -278,7 +278,7 @@ export class App {
 
       if (exportBtnCSV) {
         exportBtnCSV.addEventListener('click', () => {
-          exportService.exportToCSV(this.habits, this.progress);
+          exportService.exportToCSV(this.habits);
         });
       }
 
