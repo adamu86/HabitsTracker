@@ -32,23 +32,14 @@ export const shareService = {
       return null;
     }
 
-    try {
-      const decoded = decodeURIComponent(atob(data));
-      const parsed = JSON.parse(decoded);
+    const decoded = decodeURIComponent(atob(data));
+    const parsed = JSON.parse(decoded);
 
-      if (!parsed.habits || !parsed.progress) {
-        throw new Error('Nieprawidłowy format danych');
-      }
-
-      return {
-        habits: parsed.habits,
-        progress: parsed.progress,
-        isReadOnly: true
-      };
-    } catch (error) {
-      console.error('Błąd parsowania linku udostępniania:', error);
-      return null;
-    }
+    return {
+      habits: parsed.habits,
+      progress: parsed.progress,
+      isReadOnly: true
+    };
   },
 
   isReadOnlyMode() {
