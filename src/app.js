@@ -102,12 +102,21 @@ export class App {
           `}
         </button>
         ${!this.isReadOnly ? `
-          <button class="btn btn-icon" id="export-btn" aria-label="Eksportuj nawyki">
+          <button class="btn btn-secondary" id="export-btn-json" aria-label="Eksportuj nawyki do JSON">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="8 17 12 21 16 17"/>
               <line x1="12" y1="12" x2="12" y2="21"/>
               <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/>
             </svg>
+            JSON
+          </button>
+          <button class="btn btn-secondary" id="export-btn-csv" aria-label="Eksportuj nawyki do CSV">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="8 17 12 21 16 17"/>
+              <line x1="12" y1="12" x2="12" y2="21"/>
+              <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/>
+            </svg>
+            CSV
           </button>
           <button class="btn btn-secondary" id="share-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -249,7 +258,8 @@ export class App {
     if (!this.isReadOnly) {
       const addBtn = document.getElementById('add-habit-btn');
       const emptyAddBtn = document.getElementById('empty-add-btn');
-      const exportBtn = document.getElementById('export-btn');
+      const exportBtnJSON = document.getElementById('export-btn-json');
+      const exportBtnCSV = document.getElementById('export-btn-csv');
       const shareBtn = document.getElementById('share-btn');
 
       if (addBtn) {
@@ -260,9 +270,15 @@ export class App {
         emptyAddBtn.addEventListener('click', () => this.openAddModal());
       }
 
-      if (exportBtn) {
-        exportBtn.addEventListener('click', () => {
+      if (exportBtnJSON) {
+        exportBtnJSON.addEventListener('click', () => {
           exportService.exportToJSON(this.habits, this.progress);
+        });
+      }
+
+      if (exportBtnCSV) {
+        exportBtnCSV.addEventListener('click', () => {
+          exportService.exportToCSV(this.habits, this.progress);
         });
       }
 
