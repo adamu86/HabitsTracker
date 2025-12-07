@@ -35,7 +35,7 @@ export const analyticsService = {
         date.setHours(0, 0, 0, 0);
         return date;
       })
-      .sort((a, b) => a - b);
+      .sort();
 
     if (habitProgress.length === 0) return 0;
 
