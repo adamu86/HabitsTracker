@@ -31,14 +31,26 @@ export const exportService = {
   },
 
   exportToCSV(habits) {
-    let csvContent = "ID,Nazwa,Kategoria,Opis\n";
-    
-    habits.forEach(habit => {
-      const row = `${habit.id},${habit.name},${habit.category},${habit.description || ''}`;
-      csvContent += row + "\n";
-    });
+    const escapeCsvField = (field) => {
+      const str = String(field ?? '');
+      if (/[",\n]/.test(str)) {
+        return `"${str.replace(/"/g, '""')}"`;
+      }
+      return str;
+    };
 
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const headers = "ID,Nazwa,Kategoria,Opis";
+    const rows = habits.map(habit => 
+      [
+        habit.id,
+        habit.name,
+        habit.category,
+        habit.description
+      ].map(escapeCsvField).join(',')
+    );
+
+    const csvContent = [headers, ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
