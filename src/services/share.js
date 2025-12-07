@@ -35,10 +35,6 @@ export const shareService = {
     const decoded = decodeURIComponent(atob(data));
     const parsed = JSON.parse(decoded);
 
-    if (!parsed.habits || !parsed.progress) {
-      throw new Error('Nieprawidłowy format danych');
-    }
-
     return {
       habits: parsed.habits,
       progress: parsed.progress,
