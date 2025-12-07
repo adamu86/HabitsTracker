@@ -188,19 +188,5 @@ export const analyticsService = {
       value: data.count,
       completed: data.completed
     }));
-  },
-
-  isPerfectDay(habits, progressData) {
-    if (habits.length === 0) return false;
-    
-    const today = this.formatDate(new Date());
-    
-    return habits.every(habit => {
-      return progressData.some(p => 
-        p.habit_id === habit.id && 
-        p.date === today && 
-        p.done === true
-      );
-    });
-  },
+  }
 };
