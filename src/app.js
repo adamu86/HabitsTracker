@@ -17,6 +17,7 @@ export class App {
     this.isReadOnly = false;
     this.currentModal = null;
     this.charts = null;
+    this.sortBy = 'name';
   }
 
   async init() {
@@ -84,6 +85,10 @@ export class App {
         ${isPerfect ? '<h2 class="trophy">🏆 All today\'s habits done!</h2>' : ''}
       </div>
       <div class="header-actions">
+      <select id="sort-select" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-right: 8px;">
+        <option value="name" ${this.sortBy === 'name' ? 'selected' : ''}>Name A-Z</option>
+        <option value="category" ${this.sortBy === 'category' ? 'selected' : ''}>Category</option>
+      </select>
         <button class="btn btn-icon" id="theme-toggle" aria-label="Przełącz motyw">
           ${theme === 'dark' ? `
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -171,7 +176,16 @@ export class App {
       const grid = document.createElement('div');
       grid.className = 'habits-grid';
 
-      this.habits.forEach(habit => {
+      const sortedHabits = [...this.habits].sort((a, b) => {
+        if (this.sortBy === 'name') {
+          return a.name.localeCompare(b.name);
+        } else if (this.sortBy === 'category') {
+          return a.category.localeCompare(b.category);
+        }
+        return 0;
+      });
+
+      sortedHabits.forEach(habit => {
         const card = new HabitCard(
           habit,
           this.progress,
@@ -247,6 +261,15 @@ export class App {
   }
 
   attachEventListeners() {
+    const sortSelect = document.getElementById('sort-select');
+      if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+          this.sortBy = e.target.value;
+          this.render();
+          this.attachEventListeners();
+        });
+    }
+
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
       themeToggle.addEventListener('click', () => {
