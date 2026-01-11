@@ -30,13 +30,29 @@
             margin: 0;
             font-size: 2.5em;
         }
-        h2 {
-            color: #1e293b;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
+        .nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        h3 {
-            color: #334155;
+        .nav-tab {
+            padding: 10px 20px;
+            background: #e2e8f0;
+            color: #475569;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .nav-tab:hover, .nav-tab.active {
+            background: #667eea;
+            color: white;
         }
         .section {
             background: white;
@@ -44,6 +60,18 @@
             margin-bottom: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        h2 {
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #334155;
         }
         .feature-list {
             display: grid;
@@ -90,7 +118,29 @@
     </header>
 
     <div class="container">
-        <section class="section">
+        <nav class="nav">
+            <a href="#introduction" class="nav-tab" data-section="introduction">Wprowadzenie</a>
+            <a href="#features" class="nav-tab" data-section="features">Funkcjonalności</a>
+            <a href="#architecture" class="nav-tab" data-section="architecture">Architektura</a>
+            <a href="#installation" class="nav-tab" data-section="installation">Instalacja</a>
+            <a href="#usage" class="nav-tab" data-section="usage">Użytkowanie</a>
+            <a href="#database" class="nav-tab" data-section="database">Baza danych</a>
+            <a href="#accessibility" class="nav-tab" data-section="accessibility">Accessibility</a>
+        </nav>
+
+        <section id="introduction" class="section active">
+            <h2>📖 Wprowadzenie</h2>
+            <p>Habits Tracker to kompletna aplikacja webowa do monitorowania codziennych nawyków. Umożliwia tworzenie nawyków, śledzenie postępów w siatce dni oraz wizualizację danych za pomocą wykresów. Aplikacja jest zbudowana bez frameworków, używając nowoczesnego JavaScript ES6+.</p>
+            <h3>Kluczowe cechy</h3>
+            <ul>
+                <li><strong>Prosta instalacja:</strong> Brak autentyfikacji, dane przechowywane w Supabase</li>
+                <li><strong>Responsywny design:</strong> Działa na urządzeniach mobilnych i desktop</li>
+                <li><strong>Dostępność:</strong> Zgodna z WCAG AA</li>
+                <li><strong>Udostępnianie:</strong> Generuj linki do publicznych widoków postępów</li>
+            </ul>
+        </section>
+
+        <section id="features" class="section">
             <h2>✨ Funkcjonalności</h2>
             <div class="feature-list">
                 <div class="feature-item">
@@ -128,7 +178,7 @@
             </div>
         </section>
 
-        <section class="section">
+        <section id="architecture" class="section">
             <h2>🏗️ Architektura</h2>
             <h3>Struktura projektu</h3>
             <div class="code">
@@ -161,7 +211,7 @@
             </ul>
         </section>
 
-        <section class="section">
+        <section id="installation" class="section">
             <h2>🚀 Instalacja i Uruchomienie</h2>
             <h3>Wymagania</h3>
             <ul>
@@ -178,7 +228,7 @@
             </ol>
         </section>
 
-        <section class="section">
+        <section id="usage" class="section">
             <h2>🎯 Użytkowanie</h2>
             <h3>Dodawanie nawyku</h3>
             <p>Kliknij "Add Habit", wypełnij formularz i zapisz.</p>
@@ -188,7 +238,7 @@
             <p>Użyj przycisku "Share" aby wygenerować link read-only.</p>
         </section>
 
-        <section class="section">
+        <section id="database" class="section">
             <h2>📊 Struktura bazy danych</h2>
             <h3>Tabela <code>habits</code></h3>
             <div class="code">
@@ -211,7 +261,7 @@
             </div>
         </section>
 
-        <section class="section">
+        <section id="accessibility" class="section">
             <h2>♿ Accessibility</h2>
             <p>Aplikacja jest w pełni dostępna z:</p>
             <ul>
@@ -228,5 +278,48 @@
         <p>Built with ❤️ using Vanilla JavaScript, Supabase, and Chart.js</p>
         <p>MIT License</p>
     </footer>
+
+    <script>
+        const navTabs = document.querySelectorAll('.nav-tab');
+        const sections = document.querySelectorAll('.section');
+
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            navTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            const targetSection = document.getElementById(sectionId);
+            const targetTab = document.querySelector(`[data-section="${sectionId}"]`);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+        }
+
+        navTabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = tab.getAttribute('data-section');
+                window.location.hash = sectionId;
+                showSection(sectionId);
+            });
+        });
+
+        function handleHashChange() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                showSection(hash);
+            } else {
+                showSection('introduction');
+            }
+        }
+
+        window.addEventListener('hashchange', handleHashChange);
+        window.addEventListener('load', handleHashChange);
+    </script>
 </body>
 </html>
