@@ -602,12 +602,56 @@ pre code {
     font-size: 22px;
     margin-bottom: 15px;
     margin-top: 0;
+    font-weight: 600;
+}
+
+#modalBody h4 {
+    color: var(--primary-green-light);
+    font-size: 16px;
+    margin: 15px 0 10px 0;
+    font-weight: 600;
 }
 
 #modalBody p {
     color: var(--text-secondary);
     line-height: 1.8;
     font-size: 14px;
+    margin: 8px 0;
+}
+
+#modalBody ul {
+    list-style: none;
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+#modalBody ul li {
+    color: var(--text-secondary);
+    margin: 6px 0;
+    padding: 4px 0;
+    line-height: 1.6;
+    font-size: 13px;
+    border: none;
+    position: relative;
+    padding-left: 20px;
+}
+
+#modalBody ul li:before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--primary-green);
+    font-weight: bold;
+}
+
+#modalBody code {
+    background-color: var(--bg-darker);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: var(--primary-green-light);
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 12px;
 }
 
 /* ============================================
