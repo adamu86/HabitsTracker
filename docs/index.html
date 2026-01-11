@@ -398,60 +398,169 @@
             <!-- Getting Started Section -->
             <section id="getting-started" class="section">
                 <h2>Szybki start</h2>
-                <p>Zacznij korzystać z aplikacji w kilku prostych krokach:</p>
+                <p>Szczegółowy przewodnik po uruchomieniu aplikacji Habits Tracker na swoim komputerze.</p>
                 
+                <div class="info-box">
+                    <h3>⚙️ Wymagania wstępne</h3>
+                    <p>Zanim zaczniesz, upewnij się, że masz zainstalowane:</p>
+                    <ul>
+                        <li><strong>Node.js</strong> (wersja 16+ rekomendowana, pobierz z <code>nodejs.org</code>)</li>
+                        <li><strong>npm</strong> (dostępny razem z Node.js)</li>
+                        <li><strong>Git</strong> (do klonowania repozytorium, pobierz z <code>git-scm.com</code>)</li>
+                        <li><strong>Konto Supabase</strong> (bezpłatne, rejestracja na <code>supabase.com</code>)</li>
+                    </ul>
+                    <p style="margin-top: 10px; font-size: 13px;">Aby sprawdzić czy masz zainstalowane, otwórz terminal i wpisz: <code>node --version</code>, <code>npm --version</code>, <code>git --version</code></p>
+                </div>
+
                 <div class="steps">
                     <div class="step">
                         <span class="step-number">1</span>
                         <div class="step-content">
-                            <h4>Klonuj repozytorium</h4>
+                            <h4>📦 Klonuj repozytorium</h4>
+                            <p>Skopiuj projekt z GitHub-a na swój komputer:</p>
                             <pre><code>git clone https://github.com/yourusername/HabitsTracker.git
 cd HabitsTracker</code></pre>
+                            <p style="font-size: 13px; margin-top: 10px;">Zastąp <code>yourusername</code> swoją nazwą użytkownika GitHub.</p>
                         </div>
                     </div>
 
                     <div class="step">
                         <span class="step-number">2</span>
                         <div class="step-content">
-                            <h4>Zainstaluj zależności</h4>
+                            <h4>📚 Zainstaluj zależności</h4>
+                            <p>Pobierz wszystkie wymagane pakiety npm:</p>
                             <pre><code>npm install</code></pre>
+                            <p style="font-size: 13px; margin-top: 10px;">Ta komenda tworzy folder <code>node_modules</code> i pobiera wszystkie biblioteki (Vite, Supabase, Tailwind, itp.).</p>
                         </div>
                     </div>
 
                     <div class="step">
                         <span class="step-number">3</span>
                         <div class="step-content">
-                            <h4>Skonfiguruj Supabase</h4>
-                            <p>Utwórz plik <code>.env.local</code> z danymi do Supabase:</p>
-                            <pre><code>VITE_SUPABASE_URL=your_url
-VITE_SUPABASE_ANON_KEY=your_key</code></pre>
+                            <h4>🔑 Utwórz projekt Supabase</h4>
+                            <p>Przejdź na <strong>supabase.com</strong> i:</p>
+                            <ol style="color: var(--text-secondary); margin-left: 20px;">
+                                <li>Zaloguj się lub utwórz konto</li>
+                                <li>Kliknij "New Project"</li>
+                                <li>Wpisz nazwę projektu (np. "habits-tracker")</li>
+                                <li>Ustaw bazową bazę danych (PostgreSQL)</li>
+                                <li>Poczekaj aż projekt się zainicjalizuje (1-2 minuty)</li>
+                            </ol>
                         </div>
                     </div>
 
                     <div class="step">
                         <span class="step-number">4</span>
                         <div class="step-content">
-                            <h4>Uruchom serwer deweloperski</h4>
-                            <pre><code>npm run dev</code></pre>
+                            <h4>🔐 Skonfiguruj zmienne środowiskowe</h4>
+                            <p>W Supabase dashboard:</p>
+                            <ol style="color: var(--text-secondary); margin-left: 20px;">
+                                <li>Przejdź do <strong>Settings → API</strong></li>
+                                <li>Skopiuj wartość <strong>"Project URL"</strong></li>
+                                <li>Skopiuj wartość <strong>"anon public"</strong> key</li>
+                            </ol>
+                            <p style="margin-top: 10px;">Teraz w folderze projektu stwórz plik <code>.env.local</code> i wklej:</p>
+                            <pre><code>VITE_SUPABASE_URL=https://xxxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code></pre>
+                            <p style="font-size: 13px; margin-top: 10px;">⚠️ <strong>Ważne:</strong> Plik <code>.env.local</code> jest zignorowany przez Git (.gitignore), więc twoje klucze nie będą wysłane do repozytorium.</p>
                         </div>
                     </div>
 
                     <div class="step">
                         <span class="step-number">5</span>
                         <div class="step-content">
-                            <h4>Otwórz aplikację</h4>
-                            <p>Przejdź do <code>http://localhost:5173</code> w przeglądarce.</p>
+                            <h4>🗄️ Uruchom migrację bazy danych</h4>
+                            <p>Stwórz strukturę bazy danych:</p>
+                            <ol style="color: var(--text-secondary); margin-left: 20px;">
+                                <li>Przejdź do Supabase dashboard → <strong>SQL Editor</strong></li>
+                                <li>Kliknij <strong>"New Query"</strong></li>
+                                <li>Otwórz plik <code>supabase/migrations/20251112153501_create_habits_tracker_schema.sql</code> z projektu</li>
+                                <li>Skopiuj całą zawartość i wklej w SQL Editor</li>
+                                <li>Kliknij <strong>"Run"</strong></li>
+                                <li>Sprawdź w <strong>Table Editor</strong>, czy tabele <code>habits</code> i <code>progress</code> się pojawiły</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">6</span>
+                        <div class="step-content">
+                            <h4>🚀 Uruchom serwer deweloperski</h4>
+                            <p>Otwórz terminal w folderze projektu i wpisz:</p>
+                            <pre><code>npm run dev</code></pre>
+                            <p style="font-size: 13px; margin-top: 10px;">Powinieneś zobaczyć komunikat:</p>
+                            <pre style="background-color: var(--bg-darker); padding: 10px; border-radius: 4px;"><code>  VITE v5.x.x  ready in xxx ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Press q to quit</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">7</span>
+                        <div class="step-content">
+                            <h4>🌐 Otwórz aplikację</h4>
+                            <p>Kliknij na link <code>http://localhost:5173</code> lub otwórz go ręcznie w przeglądarce.</p>
+                            <p style="margin-top: 10px; font-size: 13px;">Powinieneś zobaczyć główną stronę aplikacji z listą nawyków (na początku pusta).</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="info-box">
-                    <h3>📌 Przydatne komendy</h3>
+                    <h3>✅ Weryfikacja instalacji</h3>
+                    <p>Aby upewnić się, że wszystko działa prawidłowo:</p>
                     <ul>
-                        <li><code>npm run dev</code> - uruchom aplikację w trybie deweloperskim</li>
-                        <li><code>npm run build</code> - zbuduj aplikację do produkcji</li>
-                        <li><code>npm run lint</code> - uruchom linter</li>
+                        <li>Aplikacja powinna się załadować bez błędów w konsoli przeglądarki (F12 → Console)</li>
+                        <li>Powinieneś móc dodać nowy nawyk (przycisk "+" lub "Dodaj nawyk")</li>
+                        <li>Nawiki powinny się zapisywać w bazie danych Supabase (sprawdź Table Editor → habits)</li>
+                        <li>Powinieneś móc zaznaczać nawiki jako wykonane</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>🔧 Przydatne komendy</h3>
+                    <ul>
+                        <li><code>npm run dev</code> - uruchom aplikację w trybie deweloperskim z hot-reload</li>
+                        <li><code>npm run build</code> - zbuduj aplikację do produkcji (folder <code>dist/</code>)</li>
+                        <li><code>npm run preview</code> - podgląd budowanej aplikacji</li>
+                        <li><code>npm run lint</code> - sprawdź kod under linterem (ESLint)</li>
                         <li><code>npm run seed</code> - załaduj dane testowe do bazy</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>❌ Troubleshooting</h3>
+                    <p><strong>Problem: "Module not found" lub błędy importów</strong></p>
+                    <ul>
+                        <li>Uruchom: <code>npm install</code> ponownie</li>
+                        <li>Usuń folder <code>node_modules</code> i plik <code>package-lock.json</code>, potem <code>npm install</code></li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Problem: Błędy związane z Supabase</strong></p>
+                    <ul>
+                        <li>Sprawdź czy plik <code>.env.local</code> ma prawidłowe wartości (bez spacji)</li>
+                        <li>Upewnij się, że URL zaczyna się od <code>https://</code></li>
+                        <li>Załaduj stronę ponownie (Ctrl+R lub Cmd+R)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Problem: Port 5173 już zajęty</strong></p>
+                    <ul>
+                        <li>Sprawdź czy inne aplikacje nie używają tego portu</li>
+                        <li>Vite automatycznie przejdzie na następny port (np. 5174)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Problem: Aplikacja się ładuje wolno</strong></p>
+                    <ul>
+                        <li>Sprawdź połączenie internetowe (potrzebne do Supabase)</li>
+                        <li>Otwórz devtools (F12) i sprawdź Network tab czy requesty się wysyłają</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>📖 Następne kroki</h3>
+                    <p>Po pomyślnym uruchomieniu aplikacji:</p>
+                    <ul>
+                        <li>Przeczytaj sekcję <strong>Architektura</strong>, aby zrozumieć strukturę kodu</li>
+                        <li>Przejrzyj <strong>Komponenty</strong> i <strong>Serwisy</strong>, aby wiedzieć jak coś zmienić</li>
+                        <li>Sprawdź <strong>Bazę danych</strong>, aby zrozumieć schemat</li>
+                        <li>Zmodyfikuj kod i zobacz jak działa hot-reload!</li>
                     </ul>
                 </div>
             </section>
