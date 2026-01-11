@@ -241,25 +241,157 @@
             <!-- Database Section -->
             <section id="database" class="section">
                 <h2>Baza danych</h2>
-                <p>Habits Tracker wykorzystuje PostgreSQL przez Supabase do przechowywania danych.</p>
+                <p>Habits Tracker wykorzystuje PostgreSQL przez Supabase do przechowywania danych o nawykach i ich wykonaniu.</p>
                 
                 <div class="info-box">
-                    <h3>Schemat bazy danych</h3>
-                    <p>Aplikacja korzysta z następujących tabel:</p>
+                    <h3>📋 Tabela: habits</h3>
+                    <p>Główna tabela przechowująca definicje wszystkich nawyków.</p>
+                    <table class="db-table">
+                        <thead>
+                            <tr>
+                                <th>Kolumna</th>
+                                <th>Typ</th>
+                                <th>Opis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>id</code></td>
+                                <td>uuid</td>
+                                <td>Unikalny identyfikator (primary key), generowany automatycznie</td>
+                            </tr>
+                            <tr>
+                                <td><code>name</code></td>
+                                <td>text</td>
+                                <td>Nazwa nawyki (wymagane, 3-50 znaków)</td>
+                            </tr>
+                            <tr>
+                                <td><code>description</code></td>
+                                <td>text</td>
+                                <td>Opis nawyki (opcjonalnie, max 200 znaków)</td>
+                            </tr>
+                            <tr>
+                                <td><code>category</code></td>
+                                <td>text</td>
+                                <td>Kategoria: Wellness, Learning, Fitness, Health, Productivity, Other</td>
+                            </tr>
+                            <tr>
+                                <td><code>color</code></td>
+                                <td>text</td>
+                                <td>Kolor hex do wizualizacji (domyślnie: #3b82f6)</td>
+                            </tr>
+                            <tr>
+                                <td><code>icon</code></td>
+                                <td>text</td>
+                                <td>Emoji lub identyfikator ikony (opcjonalnie)</td>
+                            </tr>
+                            <tr>
+                                <td><code>created_at</code></td>
+                                <td>timestamptz</td>
+                                <td>Timestamp utworzenia (ustawiane automatycznie)</td>
+                            </tr>
+                            <tr>
+                                <td><code>updated_at</code></td>
+                                <td>timestamptz</td>
+                                <td>Timestamp ostatniej aktualizacji (ustawiane automatycznie)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-box">
+                    <h3>📊 Tabela: progress</h3>
+                    <p>Tabela śledzenia codziennego wykonania nawyków.</p>
+                    <table class="db-table">
+                        <thead>
+                            <tr>
+                                <th>Kolumna</th>
+                                <th>Typ</th>
+                                <th>Opis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>id</code></td>
+                                <td>uuid</td>
+                                <td>Unikalny identyfikator (primary key), generowany automatycznie</td>
+                            </tr>
+                            <tr>
+                                <td><code>habit_id</code></td>
+                                <td>uuid</td>
+                                <td>Klucz obcy do tabeli habits (ON DELETE CASCADE)</td>
+                            </tr>
+                            <tr>
+                                <td><code>date</code></td>
+                                <td>date</td>
+                                <td>Data wpisu (format YYYY-MM-DD)</td>
+                            </tr>
+                            <tr>
+                                <td><code>done</code></td>
+                                <td>boolean</td>
+                                <td>Czy nawyka wykonana (domyślnie: false)</td>
+                            </tr>
+                            <tr>
+                                <td><code>created_at</code></td>
+                                <td>timestamptz</td>
+                                <td>Timestamp utworzenia wpisu (ustawiane automatycznie)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: 15px; font-size: 13px; color: var(--text-muted);">
+                        <strong>Ograniczenie:</strong> Unique constraint na (habit_id, date) zapobiega zduplikowanym wpisom dla tej samej nawyki w tym samym dniu.
+                    </p>
+                </div>
+
+                <div class="info-box">
+                    <h3>🔍 Indeksy</h3>
+                    <p>Dla optymalizacji wydajności zapytań:</p>
                     <ul>
-                        <li><strong>habits</strong> - główna tabela przechowująca nawyki użytkowników</li>
-                        <li><strong>progress</strong> - śledzenie wykonania nawyków dzień po dniu</li>
-                        <li><strong>users</strong> - dane użytkowników (opcjonalnie)</li>
+                        <li><code>idx_progress_habit_id</code> - indeks na kolumnie <code>habit_id</code> dla szybszych zapytań filtrujących po nawyku</li>
+                        <li><code>idx_progress_date</code> - indeks na kolumnie <code>date</code> dla szybszych zapytań zakresu dat</li>
+                        <li><code>UNIQUE(habit_id, date)</code> - unikalny indeks zapobiegający duplikatom</li>
                     </ul>
                 </div>
 
+                <div class="info-box">
+                    <h3>🔐 Bezpieczeństwo - Row Level Security (RLS)</h3>
+                    <p>Aplikacja włącza RLS na obu tabelach i definiuje polityki dostępu dla publicznego użytkownika:</p>
+                    <ul>
+                        <li><strong>SELECT:</strong> Publiczny dostęp do czytania wszystkich nawyków i postępów (dla funkcjonalności udostępniania)</li>
+                        <li><strong>INSERT:</strong> Możliwość dodawania nowych nawyków i wpisów postępu</li>
+                        <li><strong>UPDATE:</strong> Możliwość aktualizacji istniejących wpisów</li>
+                        <li><strong>DELETE:</strong> Możliwość usuwania nawyków i wpisów postępu</li>
+                    </ul>
+                    <p style="margin-top: 10px; font-size: 13px; color: var(--primary-green-light);">
+                        ℹ️ Brak wymagania autentykacji - aplikacja działa z publicznym dostępem (aplikacja vanilla JS bez systemu użytkowników)
+                    </p>
+                </div>
+
                 <div class="migration-box">
-                    <h3>Migracje</h3>
+                    <h3>📝 Migracja bazy danych</h3>
                     <p>
                         Migracja początkowa znajduje się w pliku 
                         <code>20251112153501_create_habits_tracker_schema.sql</code> 
-                        i tworzy całą strukturę bazy danych.
+                        i tworzy całą strukturę bazy danych. Wykonuje następujące operacje:
                     </p>
+                    <ul>
+                        <li>Tworzy tabelę <code>habits</code> z walidacją danych</li>
+                        <li>Tworzy tabelę <code>progress</code> z constraint-ami</li>
+                        <li>Tworzy indeksy dla optymalizacji</li>
+                        <li>Włącza RLS na obu tabelach</li>
+                        <li>Definiuje polityki bezpieczeństwa dla publicznego dostępu</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>📌 Jak uruchomić migrację?</h3>
+                    <p>W Supabase dashboard:</p>
+                    <ol style="color: var(--text-secondary);">
+                        <li>Przejdź do <strong>SQL Editor</strong></li>
+                        <li>Skopiuj zawartość pliku <code>20251112153501_create_habits_tracker_schema.sql</code></li>
+                        <li>Wklej kod i kliknij <strong>Run</strong></li>
+                        <li>Sprawdź czy w <strong>Table Editor</strong> pojawiły się tabele <code>habits</code> i <code>progress</code></li>
+                    </ol>
                 </div>
             </section>
 
