@@ -17,7 +17,8 @@ function showSection(sectionId) {
     const selectedSection = document.getElementById(sectionId);
     if (selectedSection) {
         selectedSection.classList.add('active');
-        selectedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Przewiń do góry strony
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // Aktualizuj aktywny link w nawigacji
@@ -28,7 +29,8 @@ function showSection(sectionId) {
 
     // Zaznacz kliknięty link jako aktywny
     const activeLink = Array.from(navLinks).find(link => {
-        return link.getAttribute('href').includes(sectionId);
+        const href = link.getAttribute('href');
+        return href === '#' + sectionId;
     });
     if (activeLink) {
         activeLink.classList.add('active');
@@ -155,6 +157,20 @@ function setupCodeCopy() {
 document.addEventListener('DOMContentLoaded', () => {
     initDocumentation();
     setupCodeCopy();
+    
+    // Sprawdź czy jest hash w URL
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+        showSection(hash);
+    }
+});
+
+// Obsługuj zmianę hasha w URL
+window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+        showSection(hash);
+    }
 });
 
 // Obsługuj zmianę rozmiaru okna
