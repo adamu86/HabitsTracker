@@ -49,8 +49,8 @@
                 <div class="intro-box">
                     <h3>Czym jest Habits Tracker?</h3>
                     <p>
-                        Habits Tracker to nowoczesna, responsywna aplikacja webowa zbudowana z Vanilla JavaScript, Vite i Tailwind CSS. 
-                        Wizualizacja danych odbywa się za pomocą Chart.js. Umożliwia użytkownikom:
+                        Habits Tracker to nowoczesna, responsywna aplikacja webowa zbudowana z Vanilla JavaScript i Vite. 
+                        Wizualizacja danych wykorzystuje Chart.js (CDN). Umożliwia użytkownikom:
                     </p>
                     <ul>
                         <li><strong>Tworzenie i zarządzanie nawykami</strong> - dodawaj własne nawyki do śledzenia</li>
@@ -59,7 +59,6 @@
                         <li><strong>Udostępnianie wyników</strong> - podziel się swoimi postępami ze znajomymi</li>
                         <li><strong>Eksport danych</strong> - pobieraj swoje dane do analizy</li>
                         <li><strong>Tryb ciemny/jasny</strong> - dostosuj interfejs do swoich preferencji</li>
-                        <li><strong>Praca offline</strong> - aplikacja działa także bez internetu</li>
                     </ul>
                 </div>
 
@@ -71,8 +70,8 @@
                             <p>Vite + Vanilla JavaScript</p>
                         </div>
                         <div class="tech-item">
-                            <strong>Wykresy</strong>
-                            <p>Chart.js + Tailwind CSS</p>
+                            <strong>Styling & Wykresy</strong>
+                            <p>Tailwind CSS, Chart.js (CDN)</p>
                         </div>
                         <div class="tech-item">
                             <strong>Backend & DB</strong>
@@ -80,7 +79,7 @@
                         </div>
                         <div class="tech-item">
                             <strong>Tools</strong>
-                            <p>ESLint, TypeScript</p>
+                            <p>ESLint, PostCSS</p>
                         </div>
                     </div>
                 </div>
@@ -119,15 +118,11 @@
                     </div>
                     <div class="feature-card">
                         <h4>Eksport danych</h4>
-                        <p>Pobieraj dane w różnych formatach (CSV, JSON) do dalszej analizy w Excel lub innym narzędziu.</p>
+                        <p>Pobieraj swoje dane w formacie JSON do dalszej analizy w innym narzędziu.</p>
                     </div>
                     <div class="feature-card">
                         <h4>Personalizacja</h4>
                         <p>Tryb ciemny i jasny, dostosowywalne kolory i ustawienia interfejsu zgodnie ze swoimi preferencjami.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>Offline First</h4>
-                        <p>Service Worker zapewnia pracę aplikacji offline. Dane są synchronizowane automatycznie po powrocie do sieci.</p>
                     </div>
                     <div class="feature-card">
                         <h4>Responsywny design</h4>
@@ -163,6 +158,7 @@
 ├── supabase/
 │   └── migrations/         # Migracje bazy danych
 ├── docs/                   # Dokumentacja
+├── index.html              # HTML z Chart.js CDN
 ├── package.json
 ├── vite.config.ts
 └── tailwind.config.js
@@ -176,6 +172,16 @@
                         <li><strong>Warstwa logiki:</strong> Klasa App zarządza stanem i przepływem danych</li>
                         <li><strong>Warstwa serwisów:</strong> Serwisy obsługują komunikację z Supabase, export, share i inne funkcje</li>
                         <li><strong>Warstwa danych:</strong> Supabase PostgreSQL przechowuje wszystkie dane użytkowników</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>Biblioteki zewnętrzne</h3>
+                    <ul>
+                        <li><strong>Chart.js (CDN)</strong> - Wizualizacja danych (wykresy słupkowe i pierścieniowe). Ładowany z CDN w index.html, nie jest zależnością npm</li>
+                        <li><strong>Supabase</strong> - Backend i baza danych PostgreSQL</li>
+                        <li><strong>Tailwind CSS</strong> - Styling</li>
+                        <li><strong>Vite</strong> - Build tool i dev server</li>
                     </ul>
                 </div>
             </section>
@@ -198,7 +204,7 @@
                         <h4>CalendarModal</h4>
                         <p>Interaktywny kalendarz przeglądania nawyków.</p>
                     </div>
-                    <div class="component-item" data-component="charts" data-title="Charts" data-description="<h4>Funkcjonalność:</h4><p>Komponenty do wizualizacji danych nawyków za pomocą Chart.js. Wyświetla różne rodzaje wykresów w zależności od potrzeb.</p><h4>Typy wykresów:</h4><ul><li><strong>Liniowy (Line Chart)</strong> - trend postępu w czasie, pokazuje konsystencję wykonywania</li><li><strong>Słupkowy (Bar Chart)</strong> - liczba wykonań na dzień, identyfikuje najproduktywniejsze dni</li><li><strong>Kołowy (Pie Chart)</strong> - rozkład nawyków po kategoriach</li><li><strong>Radarowy (Radar Chart)</strong> - porównanie wydajności różnych nawyków</li></ul><h4>Dane:</h4><ul><li>Pobiera surowe dane z progressService.getProgress()</li><li>Przetwarza dane za pomocą analyticsService</li><li>Oblicza: streaki, completion rate, trendy</li><li>Obsługuje różne okresy: dzień, tydzień, miesiąc, rok</li></ul><h4>Interaktywne elementy:</h4><ul><li>Hover pokazuje dokładne wartości</li><li>Klikalne elementy legendy - zaznaczanie/odznaczanie serii</li><li>Responsive design - dostosowanie do rozmiaru ekranu</li><li>Animacje przy ładowaniu</li></ul><h4>Integracja:</h4><p>Komponenty Charts wykorzystują Chart.js library do renderowania. Automatycznie odświeżają się gdy zmienią się dane nawyków. Mogą być filtrowane po kategorii lub konkretnym nawyku.</p>">
+                    <div class="component-item" data-component="charts" data-title="Charts" data-description="<h4>Funkcjonalność:</h4><p>Komponenty do wizualizacji danych nawyków za pomocą Chart.js. Wyświetla dwa główne wykresy.</p><h4>Wykresy:</h4><ul><li><strong>Słupkowy (Bar Chart)</strong> - liczba wykonanych nawyków na każdy dzień tygodnia</li><li><strong>Pierścieniowy (Doughnut Chart)</strong> - rozkład nawyków po kategoriach z procentami</li></ul><h4>Dane:</h4><ul><li>Pobiera dane z progressService.getProgress()</li><li>Przetwarza dane za pomocą analyticsService</li><li>getWeeklyStats() - statystyki na każdy dzień tygodnia</li><li>getCategoryDistribution() - podział nawyków po kategoriach</li></ul><h4>Interaktywne elementy:</h4><ul><li>Hover pokazuje dokładne wartości i procenty</li><li>Responsive design - dostosowanie do rozmiaru ekranu</li><li>Dynamiczne kolory zależne od motywu (ciemny/jasny)</li><li>Automatyczne czyszczenie starych instancji</li></ul><h4>Integracja:</h4><p>Komponenty Charts wykorzystują globalną zmienną Chart z CDN. Automatycznie odświeżają się gdy zmienią się dane nawyków.</p>">
                         <h4>Charts</h4>
                         <p>Wykresy i statystyki postępu (Chart.js).</p>
                     </div>
@@ -219,7 +225,7 @@
                         <h4>supabase.js</h4>
                         <p>Zarządzanie bazą danych PostgreSQL.</p>
                     </div>
-                    <div class="service-item" data-service="analytics" data-title="analytics.js" data-description="<h4>Funkcjonalność:</h4><p>Oblicza zaawansowane statystyki i metryki nawyków bazując na danych postępu. Wszystko dzieje się po stronie klienta - nie wymaga zapytań do bazy.</p><h4>Główne metody:</h4><ul><li><code>calculateStreak(habit, progressData)</code> - oblicza bieżący streak (liczbę dni z rzędu)</li><li><code>getCompletionRate(habit, progressData, days)</code> - procent wykonań w ostatnich N dni</li><li><code>getWeekStart(date)</code> - zwraca dzień rozpoczęcia bieżącego tygodnia</li><li><code>getMonthStats(habit, progressData, month)</code> - statystyki dla całego miesiąca</li><li><code>getTrendAnalysis(habit, progressData, days)</code> - analiza trendu na przestrzeni czasu</li><li><code>compareHabits(progressData)</code> - porównanie wydajności wszystkich nawyków</li></ul><h4>Wyniki:</h4><ul><li>Liczby: streaki, procenty, sumy</li><li>Obiekty: statystyki miesięczne, trendy</li><li>Grafy: dane formatowane dla Chart.js</li></ul><h4>Wydajność:</h4><p>Wszystkie obliczenia są zoptymalizowane - cache'owanie wyników, unikanie niepotrzebnych iteracji. Można analizować tysiące wpisów postępu bez spowolnienia.</p><h4>Integracja:</h4><p>Używany przez: Charts (do wizualizacji), App (do wyświetlania metryk), CalendarModal (do statystyk dnia).</p>">
+                    <div class="service-item" data-service="analytics" data-title="analytics.js" data-description="<h4>Funkcjonalność:</h4><p>Oblicza statystyki nawyków bazując na danych postępu. Wszystko po stronie klienta.</p><h4>Główne metody:</h4><ul><li><code>getWeekStart(date)</code> - pierwszy dzień tygodnia</li><li><code>getWeekDates(startDate)</code> - wszystkie daty tygodnia</li><li><code>getStreakCount(progressData, habitId)</code> - najdłuższy streak</li><li><code>getCurrentStreakCount(progressData, habitId)</code> - aktualny streak</li><li><code>getWeeklyStats(habits, progressData, weekStart)</code> - statystyki na każdy dzień</li><li><code>getCompletionRate(habits, progressData, weekStart)</code> - procent wykonania</li><li><code>getCategoryDistribution(habits, progressData)</code> - rozkład po kategoriach</li></ul><h4>Integracja:</h4><p>Używany przez: Charts, HabitCard, App.</p>">
                         <h4>analytics.js</h4>
                         <p>Obliczanie statystyk i trendów nawyków.</p>
                     </div>
@@ -227,9 +233,9 @@
                         <h4>share.js</h4>
                         <p>Generowanie linków do udostępniania nawyków.</p>
                     </div>
-                    <div class="service-item" data-service="export" data-title="export.js" data-description="<h4>Funkcjonalność:</h4><p>Eksportuje dane nawyków i postępów do różnych formatów aby można je było analizować w innych narzędziach (Excel, Google Sheets, Tableau, itp).</p><h4>Obsługiwane formaty:</h4><p><strong>CSV (Comma-Separated Values):</strong></p><ul><li>Tabelaryczne format - otwiera się w Excel/Sheets</li><li>Łatwe do importu do baz danych</li><li>Jeden wiersz per nawyk/postęp</li><li>Kolumny: habit_id, name, category, color, date, done</li></ul><p><strong>JSON (JavaScript Object Notation):</strong></p><ul><li>Strukturalny format - zachowuje hierarchię danych</li><li>Łatwy do parsowania w programach</li><li>Zagnieżdżona struktura: habits i progress razem</li><li>Idealny do importu do innego systemu</li></ul><h4>Główne metody:</h4><ul><li><code>exportToCSV(habits, progress)</code> - generuje plik CSV</li><li><code>exportToJSON(habits, progress)</code> - generuje plik JSON</li><li><code>downloadFile(content, filename, type)</code> - pobiera plik na komputer</li></ul><h4>Funkcje:</h4><ul><li>Automatyczny timestamp w nazwie pliku (habits_2025-01-12.csv)</li><li>Wybór zakresu dat (opcja)</li><li>Filtrowanie po kategoriach (opcja)</li><li>Kompresja danych (opcja)</li></ul><h4>Integracja:</h4><p>Używany przez: App (menu), HabitCard (export per nawyk), Charts (export danych wykresu).</p>">
+                    <div class="service-item" data-service="export" data-title="export.js" data-description="<h4>Funkcjonalność:</h4><p>Eksportuje dane nawyków i postępów do formatu JSON.</p><h4>Format:</h4><p><strong>JSON</strong> - strukturalny format zawierający nawyki i postępy z automatycznym timestamp w nazwie pliku.</p><h4>Główne metody:</h4><ul><li><code>exportToJSON(habits, progress)</code> - generuje JSON i pobiera go</li></ul><h4>Integracja:</h4><p>Używany przez: App (menu eksportu).</p>">
                         <h4>export.js</h4>
-                        <p>Eksport danych do CSV i JSON.</p>
+                        <p>Eksport danych do JSON.</p>
                     </div>
                     <div class="service-item" data-service="theme" data-title="theme.js" data-description="<h4>Funkcjonalność:</h4><p>Zarządza motywem wizualnym aplikacji (ciemny i jasny). Preferencje użytkownika są przechowywane aby zapamiętać wybór.</p><h4>Obsługiwane motywy:</h4><ul><li><strong>Dark mode</strong> - tło ciemne (#0f172a), tekst jasny</li><li><strong>Light mode</strong> - tło jasne, tekst ciemny</li><li><strong>System</strong> - zgodnie z preferencją systemu operacyjnego</li></ul><h4>Główne metody:</h4><ul><li><code>init()</code> - inicjalizuje temat przy załadowaniu aplikacji</li><li><code>toggleTheme()</code> - zmienia między dark/light</li><li><code>setTheme(theme)</code> - ustawia konkretny motyw</li><li><code>getTheme()</code> - zwraca aktualny motyw</li></ul><h4>Jak działa:</h4><ul><li>Sprawdza <strong>localStorage</strong> pod kluczem 'theme'</li><li>Jeśli brak - sprawdza preferencję systemu: <code>prefers-color-scheme</code></li><li>Dodaje klasę CSS do elementu <code>&lt;html&gt;</code></li><li>Zmienia zmienne CSS (--bg-dark, --text-primary, itd)</li><li>Zapisuje wybór użytkownika w localStorage</li></ul><h4>CSS zmienne:</h4><p>Wszystkie kolory aplikacji definiują się w CSS root i dynamicznie się zmieniają wraz ze zmianą tematu.</p><h4>Integracja:</h4><p>Używany przez: App.init() (przy starcie), przyciski thematu w UI, i system prefers-color-scheme do obsługi preferencji systemu.</p>">
                         <h4>theme.js</h4>
