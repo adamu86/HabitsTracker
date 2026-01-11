@@ -40,6 +40,43 @@ body {
 }
 
 /* ============================================
+   FONT AWESOME ICONS
+   ============================================ */
+
+i.fas {
+    margin-right: 8px;
+    color: var(--primary-green);
+    transition: color 0.25s ease;
+}
+
+h1 i.fas,
+h2 i.fas,
+h3 i.fas,
+h4 i.fas {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+li i.fas {
+    margin-right: 8px;
+    min-width: 20px;
+    text-align: center;
+    color: var(--primary-green-light);
+}
+
+.feature-card h4 i.fas,
+.component-item h4 i.fas,
+.service-item h4 i.fas {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+.step-content h4 i.fas {
+    margin-right: 10px;
+    color: var(--primary-green);
+}
+
+/* ============================================
    SIDEBAR
    ============================================ */
 
@@ -67,6 +104,7 @@ body {
     font-weight: 600;
 }
 
+<<<<<<< HEAD
 /* ============================================
    SEARCH BOX
    ============================================ */
@@ -207,6 +245,8 @@ body {
     opacity: 0.5;
 }
 
+=======
+>>>>>>> parent of de4235a (-)
 .sidebar-nav ul {
     list-style: none;
 }
@@ -792,18 +832,6 @@ pre code {
     color: var(--primary-green-light);
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     font-size: 12px;
-}
-
-/* ============================================
-   HIGHLIGHT
-   ============================================ */
-
-mark {
-    background-color: rgba(16, 185, 129, 0.3);
-    color: var(--primary-green-light);
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-weight: 600;
 }
 
 /* ============================================
