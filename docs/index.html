@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habits Tracker - Dokumentacja</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #334155;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feature-item {
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #10b981;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #1e293b;
+            color: white;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔥 Habits Tracker</h1>
+        <p>Kompletna aplikacja do śledzenia nawyków</p>
+        <div class="badge">Production Ready</div>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>✨ Funkcjonalności</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h3>CRUD nawyków</h3>
+                    <p>Dodawanie, edycja i usuwanie nawyków z pełną walidacją.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Siatka dni z tracking</h3>
+                    <p>Widok tygodniowy z możliwością oznaczania wykonanych dni.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Persystencja danych</h3>
+                    <p>Automatyczny zapis w Supabase z obsługą błędów.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Wizualizacja</h3>
+                    <p>Wykresy słupkowe i kołowe pokazujące postęp.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Udostępnianie</h3>
+                    <p>Generowanie linków read-only z danymi w URL.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Licznik streaku</h3>
+                    <p>Śledzenie najdłuższej serii kolejnych dni.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Kategorie z kolorami</h3>
+                    <p>6 kategorii z dedykowanymi ikonami i kolorami.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Tryb ciemny/jasny</h3>
+                    <p>Automatyczne wykrywanie z przełącznikiem.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🏗️ Architektura</h2>
+            <h3>Struktura projektu</h3>
+            <div class="code">
+/<br>
+├── index.html                    # Główny plik HTML<br>
+├── src/<br>
+│   ├── main.js                   # Punkt wejścia aplikacji<br>
+│   ├── app.js                    # Główna logika aplikacji<br>
+│   ├── styles.css                # Style CSS<br>
+│   ├── services/<br>
+│   │   ├── supabase.js          # Serwis komunikacji z Supabase<br>
+│   │   ├── analytics.js         # Serwis analityki<br>
+│   │   ├── share.js             # Serwis udostępniania<br>
+│   │   └── theme.js             # Serwis zarządzania motywem<br>
+│   └── components/<br>
+│       ├── HabitCard.js         # Komponent karty nawyku<br>
+│       ├── HabitModal.js        # Modal dodawania/edycji<br>
+│       ├── ShareModal.js        # Modal udostępniania<br>
+│       └── Charts.js            # Komponenty wykresów<br>
+├── seed-data.js                 # Script do inicjalizacji danych<br>
+└── package.json
+            </div>
+            <h3>Technologie</h3>
+            <ul>
+                <li><strong>Frontend:</strong> Vanilla JavaScript (ES6+), HTML5, CSS3</li>
+                <li><strong>Backend/Database:</strong> Supabase (PostgreSQL)</li>
+                <li><strong>Wizualizacja:</strong> Chart.js 4.4.0</li>
+                <li><strong>Build Tool:</strong> Vite 5.4</li>
+                <li><strong>Czcionki:</strong> Inter (Google Fonts)</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>🚀 Instalacja i Uruchomienie</h2>
+            <h3>Wymagania</h3>
+            <ul>
+                <li>Node.js 18+</li>
+                <li>Konto Supabase (darmowe)</li>
+            </ul>
+            <h3>Kroki instalacji</h3>
+            <ol>
+                <li>Klonuj repozytorium: <code>git clone &lt;repository-url&gt;</code></li>
+                <li>Zainstaluj zależności: <code>npm install</code></li>
+                <li>Skonfiguruj Supabase w pliku <code>.env</code></li>
+                <li>Uruchom aplikację: <code>npm run dev</code></li>
+                <li>Zbuduj produkcję: <code>npm run build</code></li>
+            </ol>
+        </section>
+
+        <section class="section">
+            <h2>🎯 Użytkowanie</h2>
+            <h3>Dodawanie nawyku</h3>
+            <p>Kliknij "Add Habit", wypełnij formularz i zapisz.</p>
+            <h3>Śledzenie postępu</h3>
+            <p>Kliknij na dni tygodnia w karcie nawyku.</p>
+            <h3>Udostępnianie</h3>
+            <p>Użyj przycisku "Share" aby wygenerować link read-only.</p>
+        </section>
+
+        <section class="section">
+            <h2>📊 Struktura bazy danych</h2>
+            <h3>Tabela <code>habits</code></h3>
+            <div class="code">
+- id (uuid, PK)<br>
+- name (text, 3-50 znaków)<br>
+- description (text, max 200 znaków)<br>
+- category (text)<br>
+- color (text, hex)<br>
+- icon (text, emoji)<br>
+- created_at (timestamptz)<br>
+- updated_at (timestamptz)
+            </div>
+            <h3>Tabela <code>progress</code></h3>
+            <div class="code">
+- id (uuid, PK)<br>
+- habit_id (uuid, FK)<br>
+- date (date)<br>
+- done (boolean)<br>
+- created_at (timestamptz)
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>♿ Accessibility</h2>
+            <p>Aplikacja jest w pełni dostępna z:</p>
+            <ul>
+                <li>Semantic HTML</li>
+                <li>ARIA labels</li>
+                <li>Keyboard navigation</li>
+                <li>Screen reader support</li>
+                <li>WCAG AA compliance</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>Built with ❤️ using Vanilla JavaScript, Supabase, and Chart.js</p>
+        <p>MIT License</p>
+    </footer>
+</body>
+</html>
