@@ -63,6 +63,51 @@ function initDocumentation() {
         });
     });
 
+    // Obsługuj klikanie na karty komponentów
+    const componentItems = document.querySelectorAll('.component-item[data-component]');
+    componentItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const title = item.getAttribute('data-title');
+            const description = item.getAttribute('data-description');
+            showModal(title, description);
+        });
+    });
+
+    // Obsługuj klikanie na karty serwisów
+    const serviceItems = document.querySelectorAll('.service-item[data-service]');
+    serviceItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const title = item.getAttribute('data-title');
+            const description = item.getAttribute('data-description');
+            showModal(title, description);
+        });
+    });
+
+    // Obsługuj zamykanie modalu
+    const closeModal = document.querySelector('.close-modal');
+    if (closeModal) {
+        closeModal.addEventListener('click', () => {
+            hideModal();
+        });
+    }
+
+    // Zamknij modal na kliknięcie poza nim
+    const modal = document.getElementById('infoModal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+    }
+
+    // Obsługuj klawisz Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            hideModal();
+        }
+    });
+
     // Przewijanie gładkie dla kodów
     document.querySelectorAll('pre code').forEach(block => {
         block.addEventListener('click', function() {
@@ -77,6 +122,31 @@ function initDocumentation() {
 
     // Dodaj animację do elementów
     observeElements();
+}
+
+/**
+ * Wyświetla modal z informacjami
+ * @param {string} title - Tytuł modalu
+ * @param {string} description - Opis
+ */
+function showModal(title, description) {
+    const modal = document.getElementById('infoModal');
+    const modalBody = document.getElementById('modalBody');
+    
+    if (modal && modalBody) {
+        modalBody.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
+        modal.classList.add('show');
+    }
+}
+
+/**
+ * Ukrywa modal
+ */
+function hideModal() {
+    const modal = document.getElementById('infoModal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
 }
 
 /**

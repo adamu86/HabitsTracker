@@ -31,6 +31,14 @@
                 <p class="subtitle">Dokumentacja aplikacji</p>
             </div>
         </header>
+        
+        <!-- Modal for components and services -->
+        <div id="infoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div id="modalBody"></div>
+            </div>
+        </div>
 
         <div class="content-wrapper">
             <!-- Introduction Section -->
@@ -41,8 +49,8 @@
                 <div class="intro-box">
                     <h3>Czym jest Habits Tracker?</h3>
                     <p>
-                        Habits Tracker to nowoczesna, responsywna aplikacja webowa zbudowana z najnowszymi technologiami 
-                        (Vite, TypeScript, Tailwind CSS). Umożliwia użytkownikom:
+                        Habits Tracker to nowoczesna, responsywna aplikacja webowa zbudowana z Vanilla JavaScript, Vite i Tailwind CSS. 
+                        Wizualizacja danych odbywa się za pomocą Chart.js. Umożliwia użytkownikom:
                     </p>
                     <ul>
                         <li>✅ <strong>Tworzenie i zarządzanie nawykami</strong> - dodawaj własne nawyki do śledzenia</li>
@@ -60,11 +68,11 @@
                     <div class="tech-grid">
                         <div class="tech-item">
                             <strong>Frontend</strong>
-                            <p>Vite + JavaScript</p>
+                            <p>Vite + Vanilla JavaScript</p>
                         </div>
                         <div class="tech-item">
-                            <strong>Styling</strong>
-                            <p>Tailwind CSS + PostCSS</p>
+                            <strong>Wykresy</strong>
+                            <p>Chart.js + Tailwind CSS</p>
                         </div>
                         <div class="tech-item">
                             <strong>Backend & DB</strong>
@@ -164,7 +172,7 @@
                 <div class="info-box">
                     <h3>Warstwy aplikacji</h3>
                     <ul>
-                        <li><strong>Warstwa UI:</strong> Komponenty React i HTML - odpowiadają za wyświetlanie interfejsu</li>
+                        <li><strong>Warstwa UI:</strong> Komponenty Vanilla JS i HTML - odpowiadają za wyświetlanie interfejsu</li>
                         <li><strong>Warstwa logiki:</strong> Klasa App zarządza stanem i przepływem danych</li>
                         <li><strong>Warstwa serwisów:</strong> Serwisy obsługują komunikację z Supabase, export, share i inne funkcje</li>
                         <li><strong>Warstwa danych:</strong> Supabase PostgreSQL przechowuje wszystkie dane użytkowników</li>
@@ -175,28 +183,28 @@
             <!-- Components Section -->
             <section id="components" class="section">
                 <h2>Komponenty</h2>
-                <p>Aplikacja zbudowana jest z następujących komponentów:</p>
+                <p>Aplikacja zbudowana jest z następujących komponentów. Kliknij na kartę, aby zobaczyć pełny opis:</p>
                 
                 <div class="component-list">
-                    <div class="component-item">
+                    <div class="component-item" data-component="habitcard" data-title="📋 HabitCard" data-description="Komponent wyświetlający pojedynczy nawyk na liście. Odpowiada za renderowanie karty nawyki z informacjami o statusie. Pokazuje: nazwę nawyki, bieżący streak, ostatni dzień wykonania oraz przyciski do zaznaczenia jako wykonane, edycji i usunięcia. Komponent obsługuje dynamiczne aktualizacje przy zmianach danych i responsywny design.">
                         <h4>📋 HabitCard</h4>
-                        <p>Komponent wyświetlający pojedynczy nawyk na liście. Pokazuje aktualny stan, możliwość zaznaczenia jako wykonane, edycji i usunięcia.</p>
+                        <p>Wyświetla pojedynczy nawyk na liście z wszystkimi działaniami.</p>
                     </div>
-                    <div class="component-item">
+                    <div class="component-item" data-component="habitmodal" data-title="➕ HabitModal" data-description="Okno modalne do tworzenia nowych nawyków i edycji istniejących. Zawiera formularz z polami: nazwa nawyki, opis, kategoria i kolorem. Obsługuje kompletną walidację formularza z komunikatami o błędach. Implementuje obsługę zdarzeń submit, cancel oraz obsługę klawisza Escape do zamknięcia modalu. Dane są wysyłane do Supabase po zatwierdzeniu.">
                         <h4>➕ HabitModal</h4>
-                        <p>Okno modalne do tworzenia nowych nawyków i edycji istniejących. Obsługuje walidację formularza.</p>
+                        <p>Okno modalne do tworzenia i edycji nawyków.</p>
                     </div>
-                    <div class="component-item">
+                    <div class="component-item" data-component="calendarmodal" data-title="📅 CalendarModal" data-description="Interaktywny kalendarz umożliwiający przeglądanie i zarządzanie nawykami w widoku miesięcznym. Wyświetla wszystkie dni miesiąca z informacją o wykonaniu nawyków dla każdego dnia. Pozwala na nawigację między miesiącami, podświetla bieżący dzień oraz pokazuje historię wykonań. Kliknięcie na dzień otwiera szczegóły i umożliwia edycję statusu wykonania.">
                         <h4>📅 CalendarModal</h4>
-                        <p>Interaktywny kalendarz umożliwiający przeglądanie i zarządzanie nawykami w widoku miesięcznym.</p>
+                        <p>Interaktywny kalendarz przeglądania nawyków.</p>
                     </div>
-                    <div class="component-item">
+                    <div class="component-item" data-component="charts" data-title="📊 Charts" data-description="Komponenty do wyświetlania wykresów i statystyk postępu nawyków za pomocą Chart.js. Implementuje różne typy wykresu: liniowy (trend postępu), słupkowy (wykonania na dzień) oraz kołowy (udział kategorii). Wykresy aktualizują się dynamicznie wraz ze zmianą danych i obsługują interaktywne etykiety. Dane są przetwarzane przez analyticsService do uzyskania statystyk.">
                         <h4>📊 Charts</h4>
-                        <p>Komponenty do wyświetlania wykresów i statystyk postępu nawyków.</p>
+                        <p>Wykresy i statystyki postępu (Chart.js).</p>
                     </div>
-                    <div class="component-item">
+                    <div class="component-item" data-component="sharemodal" data-title="🔗 ShareModal" data-description="Okno do generowania i kopiowania shareable linków do udostępniania nawyków innym osobom. Koduje dane nawyków w URL-u (bez potrzeby zapisywania na serwerze). Generuje readable link, który można łatwo podzielić ze znajomymi. Obsługuje kopiowanie do schowka z potwierdzeniem. Odbiorcy mogą przeglądać nawyki w trybie read-only bez konieczności zalogowania.">
                         <h4>🔗 ShareModal</h4>
-                        <p>Okno do generowania i kopiowania shareable linków do udostępniania nawyków innym osobom.</p>
+                        <p>Generowanie i kopiowanie shareable linków.</p>
                     </div>
                 </div>
             </section>
@@ -204,28 +212,28 @@
             <!-- Services Section -->
             <section id="services" class="section">
                 <h2>Serwisy</h2>
-                <p>Aplikacja wykorzystuje kilka kluczowych serwisów obsługujących różne funkcjonalności:</p>
+                <p>Aplikacja wykorzystuje kilka kluczowych serwisów obsługujących różne funkcjonalności. Kliknij na kartę, aby zobaczyć pełny opis:</p>
                 
                 <div class="service-list">
-                    <div class="service-item">
+                    <div class="service-item" data-service="supabase" data-title="🔌 supabase.js" data-description="Zarządza połączeniem z bazą danych Supabase. Eksportuje dwa serwisy: habitService (operacje CRUD dla nawyków: getAllHabits, addHabit, updateHabit, deleteHabit) i progressService (zarządzanie postępami: getProgress, addProgress, updateProgress). Wszystkie komunikacje z bazą obsługują błędy i logowanie. Inicjalizuje klienta Supabase z danymi z zmiennych środowiskowych (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY).">
                         <h4>🔌 supabase.js</h4>
-                        <p>Zarządza połączeniem z bazą danych Supabase. Obsługuje operacje CRUD dla nawyków i postępów.</p>
+                        <p>Zarządzanie bazą danych PostgreSQL.</p>
                     </div>
-                    <div class="service-item">
+                    <div class="service-item" data-service="analytics" data-title="📊 analytics.js" data-description="Oblicza statystyki i metryki nawyków. Zawiera metody: calculateStreak (długość bieżącego streaku), getCompletionRate (procent wykonań), getWeekStart (początek bieżącego tygodnia), getMonthStats (statystyki za miesiąc), getTrendAnalysis (analiza trendów). Wykorzystywany przez Charts do wizualizacji danych. Operuje na tablicach postępów i oblicza metryki algorytmicznie bez bazy danych.">
                         <h4>📊 analytics.js</h4>
-                        <p>Oblicza statystyki i metryki nawyków. Analizuje streków, wskaźniki wykonania i trendy.</p>
+                        <p>Obliczanie statystyk i trendów nawyków.</p>
                     </div>
-                    <div class="service-item">
+                    <div class="service-item" data-service="share" data-title="🔗 share.js" data-description="Generuje shareable linki z zakodowanymi danymi nawyków (Base64). Obsługuje kodowanie obiektów nawyków i postępów w URL fragmentu (#). Metoda parseShareLink() dekoduje dane z udostępnionego linku. Odbiorcy mogą przeglądać nawyki bez tworzenia konta w trybie read-only. Umożliwia łatwe dzielenie się postępami bez potrzeby przesyłania danych na serwer.">
                         <h4>🔗 share.js</h4>
-                        <p>Generuje shareable linki z zakodowanymi danymi nawyków. Dekoduje dane z udostępnionych linków.</p>
+                        <p>Generowanie linków do udostępniania nawyków.</p>
                     </div>
-                    <div class="service-item">
+                    <div class="service-item" data-service="export" data-title="📤 export.js" data-description="Eksportuje dane nawyków do różnych formatów. Obsługuje export do CSV (tabelarycle) i JSON (strukturalne). Metody: exportToCSV (generuje plik CSV z nawykami), exportToJSON (generuje plik JSON). Automatycznie pobiera plik na urządzenie użytkownika z timestamp w nazwie. Umożliwia анализу danych w Excel, Google Sheets lub innym narzędziu analitycznym.">
                         <h4>📤 export.js</h4>
-                        <p>Eksportuje dane nawyków do CSV i JSON. Umożliwia pobranie danych do analizy.</p>
+                        <p>Eksport danych do CSV i JSON.</p>
                     </div>
-                    <div class="service-item">
+                    <div class="service-item" data-service="theme" data-title="🎨 theme.js" data-description="Zarządza tematem aplikacji (ciemny/jasny). Przechowuje preferencję w localStorage pod kluczem 'theme'. Metoda init() ustawia temat na podstawie zapisanej preferencji lub preferencji systemu. Dodaje klasę 'dark-mode' do elementu html. Obsługuje dynamiczną zmianę tematu w trakcie działania aplikacji ze synchronizacją z localStorage. Zapewnia spójność tematu między sesjami użytkownika.">
                         <h4>🎨 theme.js</h4>
-                        <p>Zarządza tematem aplikacji (dark/light). Zapisuje preferencje w localStorage.</p>
+                        <p>Zarządzanie tematem dark/light.</p>
                     </div>
                 </div>
             </section>
