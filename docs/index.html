@@ -4,336 +4,324 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Habits Tracker - Dokumentacja</title>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            display: flex;
-            min-height: 100vh;
-        }
-        header {
-            position: sticky;
-            top: 0;
-            width: 100%;
-            text-align: center;
-            padding: 20px 0;
-            background: #2c3e50;
-            color: white;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 80px; /* height of header */
-            width: 250px;
-            height: calc(100vh - 80px);
-            background: #2c3e50;
-            padding: 20px;
-            overflow-y: auto;
-            box-shadow: 2px 0 4px rgba(0,0,0,0.5);
-        }
-        .nav {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .nav-tab {
-            display: block;
-            padding: 12px 20px;
-            background: #34495e;
-            color: #ecf0f1;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        .nav-tab:hover, .nav-tab.active {
-            background: #42b883;
-            color: white;
-        }
-        .main-content {
-            flex: 1;
-            margin-left: 250px;
-            padding: 20px;
-        }
-        .section {
-            background: #2c3e50;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            display: none;
-        }
-        .section.active {
-            display: block;
-        }
-        h2 {
-            color: #42b883;
-            border-bottom: 2px solid #34495e;
-            padding-bottom: 10px;
-        }
-        h3 {
-            color: #ecf0f1;
-        }
-        .feature-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .feature-item {
-            padding: 15px;
-            border-left: 4px solid #42b883;
-            background: #34495e;
-            border-radius: 4px;
-        }
-        .code {
-            background: #1a1a1a;
-            color: #e0e0e0;
-            padding: 15px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-            border: 1px solid #34495e;
-        }
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            background: #42b883;
-            color: white;
-            border-radius: 4px;
-            font-size: 0.8em;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #34495e;
-            color: #ecf0f1;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>🔥 Habits Tracker</h1>
-        <p>Kompletna aplikacja do śledzenia nawyków</p>
-        <div class="badge">Production Ready</div>
-    </header>
-
     <div class="sidebar">
-        <nav class="nav">
-            <a href="#introduction" class="nav-tab" data-section="introduction">Wprowadzenie</a>
-            <a href="#features" class="nav-tab" data-section="features">Funkcjonalności</a>
-            <a href="#architecture" class="nav-tab" data-section="architecture">Architektura</a>
-            <a href="#installation" class="nav-tab" data-section="installation">Instalacja</a>
-            <a href="#usage" class="nav-tab" data-section="usage">Użytkowanie</a>
-            <a href="#database" class="nav-tab" data-section="database">Baza danych</a>
-            <a href="#accessibility" class="nav-tab" data-section="accessibility">Accessibility</a>
+        <div class="sidebar-header">
+            <h2>📚 Dokumentacja</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#" onclick="showSection('introduction')" class="nav-link active">Wprowadzenie</a></li>
+                <li><a href="#" onclick="showSection('features')" class="nav-link">Główne funkcje</a></li>
+                <li><a href="#" onclick="showSection('architecture')" class="nav-link">Architektura</a></li>
+                <li><a href="#" onclick="showSection('components')" class="nav-link">Komponenty</a></li>
+                <li><a href="#" onclick="showSection('services')" class="nav-link">Serwisy</a></li>
+                <li><a href="#" onclick="showSection('database')" class="nav-link">Baza danych</a></li>
+                <li><a href="#" onclick="showSection('getting-started')" class="nav-link">Szybki start</a></li>
+            </ul>
         </nav>
     </div>
 
     <div class="main-content">
-        <section id="introduction" class="section active">
-            <h2>📖 Wprowadzenie</h2>
-            <p>Habits Tracker to kompletna aplikacja webowa do monitorowania codziennych nawyków. Umożliwia tworzenie nawyków, śledzenie postępów w siatce dni oraz wizualizację danych za pomocą wykresów. Aplikacja jest zbudowana bez frameworków, używając nowoczesnego JavaScript ES6+.</p>
-            <h3>Kluczowe cechy</h3>
-            <ul>
-                <li><strong>Prosta instalacja:</strong> Brak autentyfikacji, dane przechowywane w Supabase</li>
-                <li><strong>Responsywny design:</strong> Działa na urządzeniach mobilnych i desktop</li>
-                <li><strong>Dostępność:</strong> Zgodna z WCAG AA</li>
-                <li><strong>Udostępnianie:</strong> Generuj linki do publicznych widoków postępów</li>
-            </ul>
-        </section>
-
-        <section id="features" class="section">
-            <h2>✨ Funkcjonalności</h2>
-            <div class="feature-list">
-                <div class="feature-item">
-                    <h3>CRUD nawyków</h3>
-                    <p>Dodawanie, edycja i usuwanie nawyków z pełną walidacją.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Siatka dni z tracking</h3>
-                    <p>Widok tygodniowy z możliwością oznaczania wykonanych dni.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Persystencja danych</h3>
-                    <p>Automatyczny zapis w Supabase z obsługą błędów.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Wizualizacja</h3>
-                    <p>Wykresy słupkowe i kołowe pokazujące postęp.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Udostępnianie</h3>
-                    <p>Generowanie linków read-only z danymi w URL.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Licznik streaku</h3>
-                    <p>Śledzenie najdłuższej serii kolejnych dni.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Kategorie z kolorami</h3>
-                    <p>6 kategorii z dedykowanymi ikonami i kolorami.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Tryb ciemny/jasny</h3>
-                    <p>Automatyczne wykrywanie z przełącznikiem.</p>
-                </div>
+        <header class="header">
+            <div class="header-content">
+                <h1>🎯 Habits Tracker</h1>
+                <p class="subtitle">Dokumentacja aplikacji</p>
             </div>
-        </section>
+        </header>
 
-        <section id="architecture" class="section">
-            <h2>🏗️ Architektura</h2>
-            <h3>Struktura projektu</h3>
-            <div class="code">
-/<br>
-├── index.html                    # Główny plik HTML<br>
-├── src/<br>
-│   ├── main.js                   # Punkt wejścia aplikacji<br>
-│   ├── app.js                    # Główna logika aplikacji<br>
-│   ├── styles.css                # Style CSS<br>
-│   ├── services/<br>
-│   │   ├── supabase.js          # Serwis komunikacji z Supabase<br>
-│   │   ├── analytics.js         # Serwis analityki<br>
-│   │   ├── share.js             # Serwis udostępniania<br>
-│   │   └── theme.js             # Serwis zarządzania motywem<br>
-│   └── components/<br>
-│       ├── HabitCard.js         # Komponent karty nawyku<br>
-│       ├── HabitModal.js        # Modal dodawania/edycji<br>
-│       ├── ShareModal.js        # Modal udostępniania<br>
-│       └── Charts.js            # Komponenty wykresów<br>
-├── seed-data.js                 # Script do inicjalizacji danych<br>
-└── package.json
+        <div class="content-wrapper">
+            <!-- Introduction Section -->
+            <section id="introduction" class="section active">
+                <h2>Wprowadzenie</h2>
+                <p>Witaj w dokumentacji <strong>Habits Tracker</strong> - zaawansowanej aplikacji webowej do śledzenia codziennych nawyków i monitorowania postępów w doskonaleniu się.</p>
+                
+                <div class="intro-box">
+                    <h3>Czym jest Habits Tracker?</h3>
+                    <p>
+                        Habits Tracker to nowoczesna, responsywna aplikacja webowa zbudowana z najnowszymi technologiami 
+                        (Vite, TypeScript, Tailwind CSS). Umożliwia użytkownikom:
+                    </p>
+                    <ul>
+                        <li>✅ <strong>Tworzenie i zarządzanie nawykami</strong> - dodawaj własne nawyki do śledzenia</li>
+                        <li>📊 <strong>Wizualizację postępów</strong> - wykresy i statystyki w czasie rzeczywistym</li>
+                        <li>📅 <strong>Śledzenie dzienne</strong> - zaznaczaj wykonane nawyki każdego dnia</li>
+                        <li>🔗 <strong>Udostępnianie wyników</strong> - podziel się swoimi postępami ze znajomymi</li>
+                        <li>📤 <strong>Eksport danych</strong> - pobieraj swoje dane do analizy</li>
+                        <li>🎨 <strong>Tryb ciemny/jasny</strong> - dostosuj interfejs do swoich preferencji</li>
+                        <li>⚡ <strong>Praca offline</strong> - aplikacja działa także bez internetu</li>
+                    </ul>
+                </div>
+
+                <div class="tech-stack">
+                    <h3>Stack technologiczny</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <strong>Frontend</strong>
+                            <p>Vite + JavaScript</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Styling</strong>
+                            <p>Tailwind CSS + PostCSS</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Backend & DB</strong>
+                            <p>Supabase (PostgreSQL)</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Tools</strong>
+                            <p>ESLint, TypeScript</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>🚀 Cel projektu</h3>
+                    <p>
+                        Aplikacja ma na celu pomóc użytkownikom w budowaniu pozytywnych nawyków poprzez wizualizację postępów, 
+                        śledzenie streków i motywowanie do ciągłości. Projekt łączy prostotę interfejsu z potężnymi funkcjami 
+                        analitycznymi, pozwalając każdemu na monitorowanie i udoskonalanie swoich codziennych rutyn.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="section">
+                <h2>Główne funkcje</h2>
+                <p>Poznaj bogatą funkcjonalność aplikacji Habits Tracker:</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>📝 Zarządzanie nawykami</h4>
+                        <p>Twórz, edytuj i usuwaj nawyki z łatwością. Każdy nawyk może mieć własny opis i kategorizację.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📊 Wizualizacja danych</h4>
+                        <p>Wykresy pokazujące postępy, streków i statystyki w zależności od czasu. Analizuj swoje dane w różnych przedziałach czasowych.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📅 Kalendarz interaktywny</h4>
+                        <p>Przeglądaj całą historię nawyków w formacie kalendarza. Szybko zobacz, które dni były produktywne.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔗 Udostępnianie</h4>
+                        <p>Generuj shareable linki do swoich nawyków. Pokaż swoim przyjaciołom swoje postępy bez potrzeby tworzenia konta.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📤 Eksport danych</h4>
+                        <p>Pobieraj dane w różnych formatach (CSV, JSON) do dalszej analizy w Excel lub innym narzędziu.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🎨 Personalizacja</h4>
+                        <p>Tryb ciemny i jasny, dostosowywalne kolory i ustawienia interfejsu zgodnie ze swoimi preferencjami.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚡ Offline First</h4>
+                        <p>Service Worker zapewnia pracę aplikacji offline. Dane są synchronizowane automatycznie po powrocie do sieci.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📱 Responsywny design</h4>
+                        <p>Aplikacja doskonale działa na wszystkich urządzeniach - od telefonów po desktopy.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Architecture Section -->
+            <section id="architecture" class="section">
+                <h2>Architektura projektu</h2>
+                <p>Habits Tracker posiada modularną architekturę opartą na separacji odpowiedzialności.</p>
+                
+                <div class="architecture-box">
+                    <h3>Struktura folderów</h3>
+                    <pre><code>HabitsTracker/
+├── src/
+│   ├── components/          # Komponenty UI
+│   │   ├── CalendarModal.js
+│   │   ├── Charts.js
+│   │   ├── HabitCard.js
+│   │   ├── HabitModal.js
+│   │   └── ShareModal.js
+│   ├── services/            # Logika biznesowa
+│   │   ├── analytics.js
+│   │   ├── export.js
+│   │   ├── share.js
+│   │   ├── supabase.js
+│   │   └── theme.js
+│   ├── app.js              # Główna klasa aplikacji
+│   ├── main.js             # Entry point
+│   └── styles.css          # Style
+├── supabase/
+│   └── migrations/         # Migracje bazy danych
+├── docs/                   # Dokumentacja
+├── package.json
+├── vite.config.ts
+└── tailwind.config.js
+                    </code></pre>
+                </div>
+
+                <div class="info-box">
+                    <h3>Warstwy aplikacji</h3>
+                    <ul>
+                        <li><strong>Warstwa UI:</strong> Komponenty React i HTML - odpowiadają za wyświetlanie interfejsu</li>
+                        <li><strong>Warstwa logiki:</strong> Klasa App zarządza stanem i przepływem danych</li>
+                        <li><strong>Warstwa serwisów:</strong> Serwisy obsługują komunikację z Supabase, export, share i inne funkcje</li>
+                        <li><strong>Warstwa danych:</strong> Supabase PostgreSQL przechowuje wszystkie dane użytkowników</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Components Section -->
+            <section id="components" class="section">
+                <h2>Komponenty</h2>
+                <p>Aplikacja zbudowana jest z następujących komponentów:</p>
+                
+                <div class="component-list">
+                    <div class="component-item">
+                        <h4>📋 HabitCard</h4>
+                        <p>Komponent wyświetlający pojedynczy nawyk na liście. Pokazuje aktualny stan, możliwość zaznaczenia jako wykonane, edycji i usunięcia.</p>
+                    </div>
+                    <div class="component-item">
+                        <h4>➕ HabitModal</h4>
+                        <p>Okno modalne do tworzenia nowych nawyków i edycji istniejących. Obsługuje walidację formularza.</p>
+                    </div>
+                    <div class="component-item">
+                        <h4>📅 CalendarModal</h4>
+                        <p>Interaktywny kalendarz umożliwiający przeglądanie i zarządzanie nawykami w widoku miesięcznym.</p>
+                    </div>
+                    <div class="component-item">
+                        <h4>📊 Charts</h4>
+                        <p>Komponenty do wyświetlania wykresów i statystyk postępu nawyków.</p>
+                    </div>
+                    <div class="component-item">
+                        <h4>🔗 ShareModal</h4>
+                        <p>Okno do generowania i kopiowania shareable linków do udostępniania nawyków innym osobom.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section id="services" class="section">
+                <h2>Serwisy</h2>
+                <p>Aplikacja wykorzystuje kilka kluczowych serwisów obsługujących różne funkcjonalności:</p>
+                
+                <div class="service-list">
+                    <div class="service-item">
+                        <h4>🔌 supabase.js</h4>
+                        <p>Zarządza połączeniem z bazą danych Supabase. Obsługuje operacje CRUD dla nawyków i postępów.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>📊 analytics.js</h4>
+                        <p>Oblicza statystyki i metryki nawyków. Analizuje streków, wskaźniki wykonania i trendy.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>🔗 share.js</h4>
+                        <p>Generuje shareable linki z zakodowanymi danymi nawyków. Dekoduje dane z udostępnionych linków.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>📤 export.js</h4>
+                        <p>Eksportuje dane nawyków do CSV i JSON. Umożliwia pobranie danych do analizy.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>🎨 theme.js</h4>
+                        <p>Zarządza tematem aplikacji (dark/light). Zapisuje preferencje w localStorage.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Database Section -->
+            <section id="database" class="section">
+                <h2>Baza danych</h2>
+                <p>Habits Tracker wykorzystuje PostgreSQL przez Supabase do przechowywania danych.</p>
+                
+                <div class="info-box">
+                    <h3>Schemat bazy danych</h3>
+                    <p>Aplikacja korzysta z następujących tabel:</p>
+                    <ul>
+                        <li><strong>habits</strong> - główna tabela przechowująca nawyki użytkowników</li>
+                        <li><strong>progress</strong> - śledzenie wykonania nawyków dzień po dniu</li>
+                        <li><strong>users</strong> - dane użytkowników (opcjonalnie)</li>
+                    </ul>
+                </div>
+
+                <div class="migration-box">
+                    <h3>Migracje</h3>
+                    <p>
+                        Migracja początkowa znajduje się w pliku 
+                        <code>20251112153501_create_habits_tracker_schema.sql</code> 
+                        i tworzy całą strukturę bazy danych.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Getting Started Section -->
+            <section id="getting-started" class="section">
+                <h2>Szybki start</h2>
+                <p>Zacznij korzystać z aplikacji w kilku prostych krokach:</p>
+                
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Klonuj repozytorium</h4>
+                            <pre><code>git clone https://github.com/yourusername/HabitsTracker.git
+cd HabitsTracker</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Zainstaluj zależności</h4>
+                            <pre><code>npm install</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Skonfiguruj Supabase</h4>
+                            <p>Utwórz plik <code>.env.local</code> z danymi do Supabase:</p>
+                            <pre><code>VITE_SUPABASE_URL=your_url
+VITE_SUPABASE_ANON_KEY=your_key</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Uruchom serwer deweloperski</h4>
+                            <pre><code>npm run dev</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <h4>Otwórz aplikację</h4>
+                            <p>Przejdź do <code>http://localhost:5173</code> w przeglądarce.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>📌 Przydatne komendy</h3>
+                    <ul>
+                        <li><code>npm run dev</code> - uruchom aplikację w trybie deweloperskim</li>
+                        <li><code>npm run build</code> - zbuduj aplikację do produkcji</li>
+                        <li><code>npm run lint</code> - uruchom linter</li>
+                        <li><code>npm run seed</code> - załaduj dane testowe do bazy</li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="footer">
+                <p>📖 Dokumentacja Habits Tracker © 2025</p>
             </div>
-            <h3>Technologie</h3>
-            <ul>
-                <li><strong>Frontend:</strong> Vanilla JavaScript (ES6+), HTML5, CSS3</li>
-                <li><strong>Backend/Database:</strong> Supabase (PostgreSQL)</li>
-                <li><strong>Wizualizacja:</strong> Chart.js 4.4.0</li>
-                <li><strong>Build Tool:</strong> Vite 5.4</li>
-                <li><strong>Czcionki:</strong> Inter (Google Fonts)</li>
-            </ul>
-        </section>
-
-        <section id="installation" class="section">
-            <h2>🚀 Instalacja i Uruchomienie</h2>
-            <h3>Wymagania</h3>
-            <ul>
-                <li>Node.js 18+</li>
-                <li>Konto Supabase (darmowe)</li>
-            </ul>
-            <h3>Kroki instalacji</h3>
-            <ol>
-                <li>Klonuj repozytorium: <code>git clone &lt;repository-url&gt;</code></li>
-                <li>Zainstaluj zależności: <code>npm install</code></li>
-                <li>Skonfiguruj Supabase w pliku <code>.env</code></li>
-                <li>Uruchom aplikację: <code>npm run dev</code></li>
-                <li>Zbuduj produkcję: <code>npm run build</code></li>
-            </ol>
-        </section>
-
-        <section id="usage" class="section">
-            <h2>🎯 Użytkowanie</h2>
-            <h3>Dodawanie nawyku</h3>
-            <p>Kliknij "Add Habit", wypełnij formularz i zapisz.</p>
-            <h3>Śledzenie postępu</h3>
-            <p>Kliknij na dni tygodnia w karcie nawyku.</p>
-            <h3>Udostępnianie</h3>
-            <p>Użyj przycisku "Share" aby wygenerować link read-only.</p>
-        </section>
-
-        <section id="database" class="section">
-            <h2>📊 Struktura bazy danych</h2>
-            <h3>Tabela <code>habits</code></h3>
-            <div class="code">
-- id (uuid, PK)<br>
-- name (text, 3-50 znaków)<br>
-- description (text, max 200 znaków)<br>
-- category (text)<br>
-- color (text, hex)<br>
-- icon (text, emoji)<br>
-- created_at (timestamptz)<br>
-- updated_at (timestamptz)
-            </div>
-            <h3>Tabela <code>progress</code></h3>
-            <div class="code">
-- id (uuid, PK)<br>
-- habit_id (uuid, FK)<br>
-- date (date)<br>
-- done (boolean)<br>
-- created_at (timestamptz)
-            </div>
-        </section>
-
-        <section id="accessibility" class="section">
-            <h2>♿ Accessibility</h2>
-            <p>Aplikacja jest w pełni dostępna z:</p>
-            <ul>
-                <li>Semantic HTML</li>
-                <li>ARIA labels</li>
-                <li>Keyboard navigation</li>
-                <li>Screen reader support</li>
-                <li>WCAG AA compliance</li>
-            </ul>
-        </section>
+        </div>
     </div>
 
-    <footer>
-        <p>Built with ❤️ using Vanilla JavaScript, Supabase, and Chart.js</p>
-        <p>MIT License</p>
-    </footer>
-
-    <script>
-        const navTabs = document.querySelectorAll('.nav-tab');
-        const sections = document.querySelectorAll('.section');
-
-        function showSection(sectionId) {
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-            navTabs.forEach(tab => {
-                tab.classList.remove('active');
-            });
-            const targetSection = document.getElementById(sectionId);
-            const targetTab = document.querySelector(`[data-section="${sectionId}"]`);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            if (targetTab) {
-                targetTab.classList.add('active');
-            }
-        }
-
-        navTabs.forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                e.preventDefault();
-                const sectionId = tab.getAttribute('data-section');
-                window.location.hash = sectionId;
-                showSection(sectionId);
-            });
-        });
-
-        function handleHashChange() {
-            const hash = window.location.hash.substring(1);
-            if (hash) {
-                showSection(hash);
-            } else {
-                showSection('introduction');
-            }
-        }
-
-        window.addEventListener('hashchange', handleHashChange);
-        window.addEventListener('load', handleHashChange);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
