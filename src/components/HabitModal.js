@@ -126,7 +126,7 @@ export class HabitModal {
           <div class="form-group">
             <label>Scheduled Days <span class="required">*</span></label>
             <div class="days-grid">
-              ${DAYS_OF_WEEK.map(day => `
+              ${[...DAYS_OF_WEEK.slice(1), DAYS_OF_WEEK[0]].map(day => `
                 <button
                   type="button"
                   class="day-option ${this.formData.scheduled_days.includes(day.index) ? 'selected' : ''}"
