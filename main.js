@@ -514,7 +514,14 @@ Option 2: Install and provide the "ws" package:
         </div>
       </div>
       <div class="header-actions">
-        <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle theme">
+        <button class="btn btn-secondary" id="docs-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          Docs
+        </button>
+        <button class="btn btn-secondary" id="theme-toggle" aria-label="Toggle theme">
           ${t==="dark"?`
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="5"/>
@@ -532,14 +539,16 @@ Option 2: Install and provide the "ws" package:
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
           `}
+          Theme
         </button>
         ${this.isReadOnly?"":`
-          <button class="btn btn-icon" id="export-btn" aria-label="Export habits">
+          <button class="btn btn-secondary" id="export-btn" aria-label="Export habits">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="8 17 12 21 16 17"/>
               <line x1="12" y1="12" x2="12" y2="21"/>
               <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/>
             </svg>
+            Export
           </button>
           <button class="btn btn-secondary" id="share-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -614,7 +623,7 @@ Option 2: Install and provide the "ws" package:
           <canvas id="weekly-chart"></canvas>
         </div>
       </div>
-    `,e}attachEventListeners(){const e=document.getElementById("theme-toggle");if(e&&e.addEventListener("click",()=>{Ie.toggleTheme(),this.render(),this.attachEventListeners(),this.renderCharts()}),!this.isReadOnly){const t=document.getElementById("add-habit-btn"),s=document.getElementById("empty-add-btn"),r=document.getElementById("export-btn"),n=document.getElementById("share-btn");t&&t.addEventListener("click",()=>this.openAddModal()),s&&s.addEventListener("click",()=>this.openAddModal()),r&&r.addEventListener("click",()=>{ui.exportToJSON(this.habits,this.progress)}),n&&n.addEventListener("click",()=>this.openShareModal()),document.querySelectorAll(".edit-btn").forEach(l=>{l.addEventListener("click",()=>{const c=l.dataset.habitId,d=this.habits.find(h=>h.id===c);d&&this.openEditModal(d)})}),document.querySelectorAll(".delete-btn").forEach(l=>{l.addEventListener("click",()=>{const c=l.dataset.habitId;this.deleteHabit(c)})})}this.renderCharts()}renderCharts(){this.charts&&this.charts.destroy(),this.charts=new mi(this.habits,this.progress,this.weekStart);const e=document.querySelector(".chart-card:has(#weekly-chart)"),t=document.querySelector(".chart-card:has(#category-chart)");e&&this.charts.renderWeeklyProgress(e),t&&this.charts.renderCategoryDistribution(t)}openAddModal(){this.currentModal=new _t(async e=>{await be.createHabit(e),await this.handleUpdate()},()=>this.closeModal()),document.body.appendChild(this.currentModal.render())}openEditModal(e){this.currentModal=new _t(async t=>{await be.updateHabit(e.id,t),await this.handleUpdate()},()=>this.closeModal(),e),document.body.appendChild(this.currentModal.render())}openShareModal(){this.currentModal=new pi(this.habits,this.progress,()=>this.closeModal()),document.body.appendChild(this.currentModal.render())}openCalendarModal(e){this.currentModal=new yi(e,this.progress,this.isReadOnly,()=>this.closeModal(),async()=>{await this.loadData(),this.currentModal.updateProgressData(this.progress),this.updateMainContent()}),document.body.appendChild(this.currentModal.render())}updateMainContent(){const e=document.querySelector(".main-content");if(!e)return;const t=e.querySelector("div:first-child"),s=e.querySelector(".sidebar");if(t){if(this.habits.length===0)t.innerHTML=`
+    `,e}attachEventListeners(){const e=document.getElementById("theme-toggle");if(e&&e.addEventListener("click",()=>{Ie.toggleTheme(),this.render(),this.attachEventListeners(),this.renderCharts()}),!this.isReadOnly){const t=document.getElementById("add-habit-btn"),s=document.getElementById("empty-add-btn"),r=document.getElementById("export-btn"),n=document.getElementById("docs-btn"),a=document.getElementById("share-btn");t&&t.addEventListener("click",()=>this.openAddModal()),n&&n.addEventListener("click",()=>{const c=window.basePath||"./";window.open(`${c}docs`,"_blank")}),s&&s.addEventListener("click",()=>this.openAddModal()),r&&r.addEventListener("click",()=>{ui.exportToJSON(this.habits,this.progress)}),a&&a.addEventListener("click",()=>this.openShareModal()),document.querySelectorAll(".edit-btn").forEach(c=>{c.addEventListener("click",()=>{const d=c.dataset.habitId,h=this.habits.find(u=>u.id===d);h&&this.openEditModal(h)})}),document.querySelectorAll(".delete-btn").forEach(c=>{c.addEventListener("click",()=>{const d=c.dataset.habitId;this.deleteHabit(d)})})}this.renderCharts()}renderCharts(){this.charts&&this.charts.destroy(),this.charts=new mi(this.habits,this.progress,this.weekStart);const e=document.querySelector(".chart-card:has(#weekly-chart)"),t=document.querySelector(".chart-card:has(#category-chart)");e&&this.charts.renderWeeklyProgress(e),t&&this.charts.renderCategoryDistribution(t)}openAddModal(){this.currentModal=new _t(async e=>{await be.createHabit(e),await this.handleUpdate()},()=>this.closeModal()),document.body.appendChild(this.currentModal.render())}openEditModal(e){this.currentModal=new _t(async t=>{await be.updateHabit(e.id,t),await this.handleUpdate()},()=>this.closeModal(),e),document.body.appendChild(this.currentModal.render())}openShareModal(){this.currentModal=new pi(this.habits,this.progress,()=>this.closeModal()),document.body.appendChild(this.currentModal.render())}openCalendarModal(e){this.currentModal=new yi(e,this.progress,this.isReadOnly,()=>this.closeModal(),async()=>{await this.loadData(),this.currentModal.updateProgressData(this.progress),this.updateMainContent()}),document.body.appendChild(this.currentModal.render())}updateMainContent(){const e=document.querySelector(".main-content");if(!e)return;const t=e.querySelector("div:first-child"),s=e.querySelector(".sidebar");if(t){if(this.habits.length===0)t.innerHTML=`
           <div class="empty-state">
             <div class="empty-icon">🎯</div>
             <h3>No habits yet</h3>
