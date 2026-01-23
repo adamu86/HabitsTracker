@@ -42,6 +42,29 @@ export const exportService = {
         throw new Error('Invalid JSON: missing progress array');
       }
 
+      // Store custom categories to localStorage
+      const defaultCategoryNames = ['Wellness', 'Learning', 'Fitness', 'Health', 'Productivity', 'Other'];
+      const customCategories = new Set();
+      
+      data.habits.forEach(h => {
+        if (h.category && !defaultCategoryNames.includes(h.category)) {
+          customCategories.add(h.category);
+        }
+      });
+
+      if (customCategories.size > 0) {
+        const storedCategories = JSON.parse(localStorage.getItem('custom_categories') || '[]');
+        const categoryMap = new Map(storedCategories.map(c => [c.name, c]));
+        
+        customCategories.forEach(catName => {
+          if (!categoryMap.has(catName)) {
+            categoryMap.set(catName, { name: catName, icon: '🎯' });
+          }
+        });
+        
+        localStorage.setItem('custom_categories', JSON.stringify(Array.from(categoryMap.values())));
+      }
+
       // Normalize habits for database insertion
       const habits = data.habits.map(h => ({
         name: h.name,
