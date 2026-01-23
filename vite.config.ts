@@ -1,11 +1,18 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   base: '/HabitsTracker/',
-  plugins: [react()],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        docs: 'docs/index.html',  // ← Osobna strona
+      },
+      output: {
+        entryFileNames: '[name].js',
+      },
+    },
   },
+  plugins: [react()],
 });
