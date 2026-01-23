@@ -105,8 +105,20 @@
                         <p>Twórz, edytuj i usuwaj nawyki z łatwością. Każdy nawyk może mieć własny opis i kategorizację.</p>
                     </div>
                     <div class="feature-card">
+                        <h4>Wybór dni tygodnia</h4>
+                        <p>Zaznacz dni w których chcesz ćwiczyć nawyk. Aplikacja będzie śledzić postępy tylko dla wybranych dni tygodnia.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Customowe kategorie i kolory</h4>
+                        <p>Twórz własne kategorie nawyków. Wybieraj dowolne kolory z color pickera. Zarządzaj nimi klikając prawy przycisk myszy.</p>
+                    </div>
+                    <div class="feature-card">
                         <h4>Wizualizacja danych</h4>
                         <p>Wykresy pokazujące postępy, streak'ów i statystyki w zależności od czasu. Analizuj swoje dane w różnych przedziałach czasowych.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Sortowanie nawyków</h4>
+                        <p>Sortuj nawyki według nazwy, kategorii lub daty utworzenia. Ustawienie jest pamiętane w localStorage.</p>
                     </div>
                     <div class="feature-card">
                         <h4>Kalendarz interaktywny</h4>
@@ -118,7 +130,7 @@
                     </div>
                     <div class="feature-card">
                         <h4>Eksport danych</h4>
-                        <p>Pobieraj swoje dane w formacie JSON do dalszej analizy w innym narzędziu.</p>
+                        <p>Pobieraj swoje dane w formacie JSON do dalszej analizy w innym narzędziu. Eksport zawiera harmonogram dni.</p>
                     </div>
                     <div class="feature-card">
                         <h4>Personalizacja</h4>
@@ -196,9 +208,9 @@
                         <h4>HabitCard</h4>
                         <p>Wyświetla pojedynczy nawyk na liście z wszystkimi działaniami.</p>
                     </div>
-                    <div class="component-item" data-component="habitmodal" data-title="HabitModal" data-description="<h4>Funkcjonalność:</h4><p>Okno modalne do tworzenia nowych nawyków i edycji istniejących. Pojawia się na żądanie użytkownika lub do edycji wybranego nawyki.</p><h4>Pola formularza:</h4><ul><li><strong>Nazwa nawyki</strong> (wymagane, 3-50 znaków) - główna nazwa</li><li><strong>Opis</strong> (opcjonalnie, max 200 znaków) - dodatkowe informacje</li><li><strong>Kategoria</strong> - wybór z: Wellness, Learning, Fitness, Health, Productivity, Other</li><li><strong>Kolor</strong> - color picker do wizualizacji</li><li><strong>Ikona</strong> (opcjonalnie) - emoji lub identyfikator</li></ul><h4>Walidacja:</h4><ul><li>Sprawdzenie długości nazwy (3-50 znaków)</li><li>Sprawdzenie długości opisu (max 200 znaków)</li><li>Komunikaty błędów jeśli dane są nieprawidłowe</li><li>Przycisk Submit jest wyłączony do czasu wypełnienia wymaganych pól</li></ul><h4>Obsługiwane zdarzenia:</h4><ul><li><strong>Submit</strong> - wysyła dane do Supabase (CREATE lub UPDATE)</li><li><strong>Cancel</strong> - zamyka modal bez zapisywania</li><li><strong>Escape key</strong> - zamyka modal</li><li><strong>Click outside</strong> - zamyka modal</li></ul><h4>Integracja:</h4><p>Wykorzystuje habitService.addHabit() dla nowych i habitService.updateHabit() dla edycji. Po pomyślnym zapisaniu zamyka się i odświeża listę nawyków.</p>">
+                    <div class="component-item" data-component="habitmodal" data-title="HabitModal" data-description="<h4>Funkcjonalność:</h4><p>Okno modalne do tworzenia nowych nawyków i edycji istniejących. Pojawia się na żądanie użytkownika lub do edycji wybranego nawyki.</p><h4>Pola formularza:</h4><ul><li><strong>Nazwa nawyki</strong> (wymagane, 3-50 znaków) - główna nazwa</li><li><strong>Opis</strong> (opcjonalnie, max 200 znaków) - dodatkowe informacje</li><li><strong>Kategoria</strong> - domyślne (Wellness, Learning, Fitness, Health, Productivity, Other) lub customowe</li><li><strong>Kolor</strong> - color picker do wizualizacji, mogą być domyślne lub customowe</li><li><strong>Ikona</strong> (opcjonalnie) - emoji lub identyfikator</li><li><strong>Dni tygodnia</strong> - zaznacz które dni wykonywać nawyk (Nd-Sb)</li></ul><h4>Customowe kategorie i kolory:</h4><ul><li><strong>Dodawanie kategorii:</strong> Kliknij przycisk 'New' w siatce kategorii, wpisz nazwę i wybierz emoji</li><li><strong>Dodawanie koloru:</strong> Kliknij przycisk '+' w siatce kolorów, użyj color pickera i zatwierdź</li><li><strong>Usuwanie:</strong> Prawy klik (context menu) na customowej kategorii lub kolorze aby usunąć</li><li><strong>Automatyczne odświeżenie:</strong> Nowe kategorie i kolory pojawią się natychmiast w siatce</li></ul><h4>Walidacja:</h4><ul><li>Sprawdzenie długości nazwy (3-50 znaków)</li><li>Sprawdzenie długości opisu (max 200 znaków)</li><li>Sprawdzenie formatu koloru (#RRGGBB)</li><li>Komunikaty błędów jeśli dane są nieprawidłowe</li><li>Przynajmniej jeden dzień tygodnia musi być wybrany</li></ul><h4>Obsługiwane zdarzenia:</h4><ul><li><strong>Submit</strong> - wysyła dane do Supabase (CREATE lub UPDATE)</li><li><strong>Cancel</strong> - zamyka modal bez zapisywania</li><li><strong>Escape key</strong> - zamyka modal</li><li><strong>Click outside</strong> - zamyka modal</li><li><strong>Prawy klik na kolor/kategorie</strong> - usuwa customową wartość (tylko dla custom)</li></ul><h4>Integracja:</h4><p>Wykorzystuje habitService.addHabit() dla nowych i habitService.updateHabit() dla edycji. Dane o wybranych dniach są zapisywane w polu scheduled_days (JSON array). Po pomyślnym zapisaniu zamyka się i odświeża listę nawyków.</p>">
                         <h4>HabitModal</h4>
-                        <p>Okno modalne do tworzenia i edycji nawyków.</p>
+                        <p>Okno modalne do tworzenia i edycji nawyków z wyborem dni i customowymi kategoriami/kolorami.</p>
                     </div>
                     <div class="component-item" data-component="calendarmodal" data-title="CalendarModal" data-description="<h4>Funkcjonalność:</h4><p>Interaktywny kalendarz umożliwiający przeglądanie całej historii nawyków w widoku miesięcznym. Pozwala szybko zobaczyć które dni były produktywne.</p><h4>Cechy:</h4><ul><li><strong>Widok miesięczny</strong> - wszystkie dni miesiąca w formacie kalendarza</li><li><strong>Nawigacja</strong> - przyciski poprzedni/następny miesiąc</li><li><strong>Podświetlenie</strong> - bieżący dzień wyróżniony kolorem</li><li><strong>Znaki wykonania</strong> - checkmark jeśli nawyka wykonana w dany dzień</li><li><strong>Kolory kategorii</strong> - wizualne rozróżnienie nawyków</li></ul><h4>Interaktywność:</h4><ul><li>Kliknięcie na dzień pokazuje szczegóły wykonania</li><li>Możliwość edycji statusu dla przeszłych dni</li><li>Szybkie przejście do innego miesiąca</li><li>Synchronizacja w czasie rzeczywistym ze zmianami</li></ul><h4>Dane:</h4><p>Pobiera dane z progressService.getProgress() dla wybranego miesiąca. Wyświetla wszystkie nawyki przypisane do wybranych dni. Pozwala na analizę wzorców wykonywania nawyków.</p><h4>Integracja:</h4><p>Współpracuje z analyticsService do obliczania statystyk dla zakresu dat. Pozwala na szybką analizę trendu nawyków.</p>">
                         <h4>CalendarModal</h4>
