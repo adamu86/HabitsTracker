@@ -356,10 +356,88 @@ export class App {
       async () => {
         await this.loadData();
         this.currentModal.updateProgressData(this.progress);
+        this.updateMainContent();
       }
     );
 
     document.body.appendChild(this.currentModal.render());
+  }
+
+  updateMainContent() {
+    const mainContent = document.querySelector('.main-content');
+    if (!mainContent) return;
+
+    const habitsSection = mainContent.querySelector('div:first-child');
+    const sidebar = mainContent.querySelector('.sidebar');
+
+    if (habitsSection) {
+      if (this.habits.length === 0) {
+        habitsSection.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">🎯</div>
+            <h3>No habits yet</h3>
+            <p>Start building better habits by adding your first habit!</p>
+            ${!this.isReadOnly ? `
+              <button class="btn btn-primary" id="empty-add-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Add Your First Habit
+              </button>
+            ` : ''}
+          </div>
+        `;
+      } else {
+        const grid = document.createElement('div');
+        grid.className = 'habits-grid';
+
+        this.habits.forEach(habit => {
+          const card = new HabitCard(
+            habit,
+            this.progress,
+            this.weekStart,
+            this.isReadOnly,
+            () => this.handleUpdate(),
+            (h) => this.openCalendarModal(h)
+          );
+          grid.appendChild(card.render());
+        });
+
+        habitsSection.innerHTML = '';
+        habitsSection.appendChild(grid);
+      }
+
+      const emptyAddBtn = habitsSection.querySelector('#empty-add-btn');
+      if (emptyAddBtn) {
+        emptyAddBtn.addEventListener('click', () => this.openAddModal());
+      }
+
+      const editButtons = habitsSection.querySelectorAll('.edit-btn');
+      editButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const habitId = btn.dataset.habitId;
+          const habit = this.habits.find(h => h.id === habitId);
+          if (habit) {
+            this.openEditModal(habit);
+          }
+        });
+      });
+
+      const deleteButtons = habitsSection.querySelectorAll('.delete-btn');
+      deleteButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const habitId = btn.dataset.habitId;
+          this.deleteHabit(habitId);
+        });
+      });
+    }
+
+    if (sidebar) {
+      const newSidebar = this.renderSidebar();
+      sidebar.replaceWith(newSidebar);
+      this.renderCharts();
+    }
   }
 
   closeModal() {
