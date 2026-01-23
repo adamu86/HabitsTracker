@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Habits Tracker - Dokumentacja</title>
+  <script type="module" crossorigin src="/HabitsTracker/docs.js"></script>
+  <link rel="modulepreload" crossorigin href="/HabitsTracker/assets/modulepreload-polyfill-B5Qt9EMX.js">
   <link rel="stylesheet" crossorigin href="/HabitsTracker/assets/docs-Bows_jf2.css">
 </head>
+<script>
+    // Ustaw bazową ścieżkę dla dokumentacji
+    window.basePath = new URL(document.currentScript.src).pathname.includes('/HabitsTracker/') 
+        ? '/HabitsTracker/docs/' 
+        : './';
+</script>
 <body>
     <div class="sidebar">
         <div class="sidebar-header">
@@ -588,7 +596,6 @@ VITE_SUPABASE_ANON_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code></pre>
             </div>
         </div>
     </div>
-
-    <script src="script.js"></script>
+
 </body>
 </html>
