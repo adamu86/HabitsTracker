@@ -82,7 +82,14 @@ export class App {
         </div>
       </div>
       <div class="header-actions">
-        <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle theme">
+        <button class="btn btn-secondary" id="docs-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          Docs
+        </button>
+        <button class="btn btn-secondary" id="theme-toggle" aria-label="Toggle theme">
           ${theme === 'dark' ? `
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="5"/>
@@ -100,14 +107,16 @@ export class App {
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
           `}
+          Theme
         </button>
         ${!this.isReadOnly ? `
-          <button class="btn btn-icon" id="export-btn" aria-label="Export habits">
+          <button class="btn btn-secondary" id="export-btn" aria-label="Export habits">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="8 17 12 21 16 17"/>
               <line x1="12" y1="12" x2="12" y2="21"/>
               <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/>
             </svg>
+            Export
           </button>
           <button class="btn btn-secondary" id="share-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -250,10 +259,18 @@ export class App {
       const addBtn = document.getElementById('add-habit-btn');
       const emptyAddBtn = document.getElementById('empty-add-btn');
       const exportBtn = document.getElementById('export-btn');
+      const docsBtn = document.getElementById('docs-btn');
       const shareBtn = document.getElementById('share-btn');
 
       if (addBtn) {
         addBtn.addEventListener('click', () => this.openAddModal());
+      }
+
+      if (docsBtn) {
+        docsBtn.addEventListener('click', () => {
+          const basePath = window.basePath || './';
+          window.open(`${basePath}docs`, '_blank');
+        });
       }
 
       if (emptyAddBtn) {
