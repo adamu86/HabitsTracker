@@ -67,6 +67,35 @@ export class HabitModal {
     }
   }
 
+  // Save custom category to localStorage
+  saveCustomCategory(name, icon) {
+    try {
+      const custom = this.getCustomCategories();
+      if (!custom.find(c => c.name === name)) {
+        custom.push({ name, icon });
+        localStorage.setItem('custom_categories', JSON.stringify(custom));
+      }
+    } catch (error) {
+      console.error('Error saving custom category:', error);
+    }
+  }
+
+  // Update custom category in localStorage
+  updateCustomCategory(oldName, newName, newIcon) {
+    try {
+      const custom = this.getCustomCategories();
+      const index = custom.findIndex(c => c.name === oldName);
+      if (index !== -1) {
+        custom[index] = { name: newName, icon: newIcon };
+        localStorage.setItem('custom_categories', JSON.stringify(custom));
+        return true;
+      }
+    } catch (error) {
+      console.error('Error updating custom category:', error);
+    }
+    return false;
+  }
+
   // Save custom color to localStorage
   saveCustomColor(color) {
     try {
@@ -291,6 +320,7 @@ export class HabitModal {
         </form>
       </div>
     `;
+    
 
     this.attachEventListeners(overlay);
 
@@ -424,13 +454,17 @@ export class HabitModal {
 
         // Re-attach add color button
         const newAddColorBtn = overlay.querySelector('#add-color-btn');
-        newAddColorBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          overlay.querySelector('#color-picker-form').style.display = 'none';
-        });
+        if (newAddColorBtn) {
+          newAddColorBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const form = overlay.querySelector('#color-picker-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+          });
+        }
 
         // Reset form
         overlay.querySelector('#color-picker-form').style.display = 'none';
+        overlay.querySelector('#custom-color-hex').value = colorInput.value;
       });
     }
 
@@ -444,11 +478,19 @@ export class HabitModal {
     });
 
     // Add category button
-    addCategoryBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const form = overlay.querySelector('#new-category-form');
-      form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    });
+    if (addCategoryBtn) {
+      addCategoryBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const form = overlay.querySelector('#new-category-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        // Set initial icon selection
+        const firstIcon = overlay.querySelector('.icon-option');
+        if (firstIcon) {
+          selectedNewIcon = firstIcon.dataset.icon;
+          firstIcon.classList.add('selected');
+        }
+      });
+    }
 
     // Icon picker
     const iconOptions = overlay.querySelectorAll('.icon-option');
@@ -468,6 +510,7 @@ export class HabitModal {
         e.preventDefault();
         overlay.querySelector('#new-category-form').style.display = 'none';
         overlay.querySelector('#new-category-name').value = '';
+        iconOptions.forEach(b => b.classList.remove('selected'));
       });
     }
 
@@ -518,7 +561,7 @@ export class HabitModal {
           <button
             type="button"
             class="category-option add-category"
-            id="add-category-btn"
+            id="add-category-btn-new"
             title="Add new category"
           >
             <span class="icon">➕</span>
@@ -537,18 +580,28 @@ export class HabitModal {
           });
         });
 
-        // Re-attach add category button
-        const newAddCategoryBtn = overlay.querySelector('#add-category-btn');
-        newAddCategoryBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const form = overlay.querySelector('#new-category-form');
-          form.style.display = 'none';
-          form.parentElement.appendChild(form);
-        });
+
+
+        // Re-attach add category button with proper handler
+        const newAddCategoryBtn = overlay.querySelector('#add-category-btn-new');
+        if (newAddCategoryBtn) {
+          newAddCategoryBtn.id = 'add-category-btn';
+          newAddCategoryBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const form = overlay.querySelector('#new-category-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            const firstIcon = overlay.querySelector('.icon-option');
+            if (firstIcon) {
+              selectedNewIcon = firstIcon.dataset.icon;
+              firstIcon.classList.add('selected');
+            }
+          });
+        }
 
         // Reset form
         overlay.querySelector('#new-category-form').style.display = 'none';
         overlay.querySelector('#new-category-name').value = '';
+        overlay.querySelectorAll('.icon-option').forEach(b => b.classList.remove('selected'));
       });
     }
 

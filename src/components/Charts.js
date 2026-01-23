@@ -110,7 +110,7 @@ export class Charts {
     );
 
     if (distribution.length === 0) {
-      container.innerHTML = '<p style="text-align: center; opacity: 0.5; padding: 2rem;">Brak danych</p>';
+      container.innerHTML = '<p style="text-align: center; opacity: 0.5; padding: 2rem;">No data</p>';
       return;
     }
 
