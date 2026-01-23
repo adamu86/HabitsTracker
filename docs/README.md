@@ -7,7 +7,7 @@ Pełna dokumentacja projektu **Habits Tracker** - aplikacji do śledzenia nawyk�
 Ta dokumentacja zawiera:
 
 - **Wprowadzenie** - czym jest aplikacja i jakie są jej główne cechy
-- **Główne funkcje** - opis wszystkich funkcjonalności
+- **Główne funkcje** - opis wszystkich funkcjonalności (w tym dni tygodnia, sortowanie, customowe kategorie/kolory)
 - **Architektura** - budowa projektu i struktura plików
 - **Komponenty** - opis komponentów UI
 - **Serwisy** - logika biznesowa aplikacji
@@ -24,7 +24,8 @@ Ta dokumentacja zawiera:
 
 ### Online
 
-Dokumentacja jest dostępna na stronie projektu (po wdrożeniu).
+Dokumentacja jest dostępna pod adresem `/docs` na stronie projektu (GitHubPages):
+`https://YOUR_USERNAME.github.io/HabitsTracker/docs/`
 
 ## 🎨 Design dokumentacji
 
