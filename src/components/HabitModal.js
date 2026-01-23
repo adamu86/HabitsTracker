@@ -12,6 +12,16 @@ const CATEGORIES = [
   { name: 'Other', icon: '🎯' }
 ];
 
+const DAYS_OF_WEEK = [
+  { index: 0, short: 'Sun', full: 'Sunday' },
+  { index: 1, short: 'Mon', full: 'Monday' },
+  { index: 2, short: 'Tue', full: 'Tuesday' },
+  { index: 3, short: 'Wed', full: 'Wednesday' },
+  { index: 4, short: 'Thu', full: 'Thursday' },
+  { index: 5, short: 'Fri', full: 'Friday' },
+  { index: 6, short: 'Sat', full: 'Saturday' }
+];
+
 export class HabitModal {
   constructor(onSave, onClose, habit = null) {
     this.onSave = onSave;
@@ -22,7 +32,8 @@ export class HabitModal {
       description: habit?.description || '',
       color: habit?.color || COLORS[0],
       category: habit?.category || 'Wellness',
-      icon: habit?.icon || CATEGORIES[0].icon
+      icon: habit?.icon || CATEGORIES[0].icon,
+      scheduled_days: habit?.scheduled_days || [0, 1, 2, 3, 4, 5, 6]
     };
   }
 
@@ -42,7 +53,7 @@ export class HabitModal {
             <h2 id="modal-title">${isEdit ? 'Edit Habit' : 'Add New Habit'}</h2>
             <p>${isEdit ? 'Update your habit details below.' : 'Create a new habit to track your daily progress.'}</p>
           </div>
-          <button class="btn-close" aria-label="Zamknij">
+          <button class="btn-close" aria-label="Close">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="6" x2="6" y2="18"/>
               <line x1="6" y1="6" x2="18" y2="18"/>
@@ -89,7 +100,7 @@ export class HabitModal {
                   class="color-option ${color === this.formData.color ? 'selected' : ''}"
                   style="background-color: ${color}"
                   data-color="${color}"
-                  aria-label="Kolor ${color}"
+                  aria-label="Color ${color}"
                 ></button>
               `).join('')}
             </div>
@@ -107,6 +118,23 @@ export class HabitModal {
                 >
                   <span class="icon">${cat.icon}</span>
                   <span>${cat.name}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Scheduled Days <span class="required">*</span></label>
+            <div class="days-grid">
+              ${DAYS_OF_WEEK.map(day => `
+                <button
+                  type="button"
+                  class="day-option ${this.formData.scheduled_days.includes(day.index) ? 'selected' : ''}"
+                  data-day="${day.index}"
+                  title="${day.full}"
+                  aria-label="${day.full}"
+                >
+                  ${day.short}
                 </button>
               `).join('')}
             </div>
@@ -143,6 +171,7 @@ export class HabitModal {
     const cancelBtn = overlay.querySelector('#cancel-btn');
     const colorOptions = overlay.querySelectorAll('.color-option');
     const categoryOptions = overlay.querySelectorAll('.category-option');
+    const dayOptions = overlay.querySelectorAll('.day-option');
 
     nameInput.addEventListener('input', (e) => {
       this.formData.name = e.target.value;
@@ -169,17 +198,37 @@ export class HabitModal {
       });
     });
 
+    dayOptions.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const dayIndex = parseInt(btn.dataset.day);
+        if (this.formData.scheduled_days.includes(dayIndex)) {
+          this.formData.scheduled_days = this.formData.scheduled_days.filter(d => d !== dayIndex);
+          btn.classList.remove('selected');
+        } else {
+          this.formData.scheduled_days.push(dayIndex);
+          this.formData.scheduled_days.sort((a, b) => a - b);
+          btn.classList.add('selected');
+        }
+      });
+    });
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       if (this.formData.name.length < 3 || this.formData.name.length > 50) {
-        alert('Nazwa nawyku musi mieć od 3 do 50 znaków');
+        alert('Habit name must be between 3 and 50 characters');
+        return;
+      }
+
+      if (this.formData.scheduled_days.length === 0) {
+        alert('Select at least one day');
         return;
       }
 
       const saveBtn = overlay.querySelector('#save-btn');
       saveBtn.disabled = true;
-      saveBtn.textContent = 'Zapisywanie...';
+      saveBtn.textContent = 'Saving...';
 
       try {
         const habitData = {
@@ -187,14 +236,15 @@ export class HabitModal {
           description: this.formData.description.trim(),
           color: this.formData.color,
           category: this.formData.category,
-          icon: this.formData.icon
+          icon: this.formData.icon,
+          scheduled_days: this.formData.scheduled_days
         };
 
         await this.onSave(habitData);
         this.onClose();
       } catch (error) {
-        console.error('Błąd podczas zapisywania nawyku:', error);
-        alert('Nie udało się zapisać nawyku. Spróbuj ponownie.');
+        console.error('Error while saving habit:', error);
+        alert('Failed to save habit. Try again.');
         saveBtn.disabled = false;
         saveBtn.textContent = this.habit ? 'Save Changes' : 'Add Habit';
       }

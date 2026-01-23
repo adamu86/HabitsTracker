@@ -22,7 +22,7 @@ export class CalendarModal {
         await this.onUpdate();
       }
     } catch (error) {
-      console.error('Błąd podczas aktualizacji postępu:', error);
+      console.error('Error while updating progress:', error);
     }
   }
 
@@ -30,6 +30,40 @@ export class CalendarModal {
     return this.progressData.some(
       p => p.habit_id === this.habit.id && p.date === dateStr && p.done
     );
+  }
+
+  isScheduledDay(dayOfWeek) {
+    if (!this.habit.scheduled_days || this.habit.scheduled_days.length === 0) {
+      return true;
+    }
+    return this.habit.scheduled_days.includes(dayOfWeek);
+  }
+
+  getScheduledDaysInfo() {
+    if (!this.habit.scheduled_days || this.habit.scheduled_days.length === 0) {
+      return '';
+    }
+
+    const DAYS_OF_WEEK = [
+      { index: 0, short: 'Sun', full: 'Sunday' },
+      { index: 1, short: 'Mon', full: 'Monday' },
+      { index: 2, short: 'Tue', full: 'Tuesday' },
+      { index: 3, short: 'Wed', full: 'Wednesday' },
+      { index: 4, short: 'Thu', full: 'Thursday' },
+      { index: 5, short: 'Fri', full: 'Friday' },
+      { index: 6, short: 'Sat', full: 'Saturday' }
+    ];
+
+    const allDaysSelected = this.habit.scheduled_days.length === 7;
+    if (allDaysSelected) {
+      return '<p class="scheduled-days-info">Perform every day</p>';
+    }
+
+    const scheduledDayNames = this.habit.scheduled_days
+      .map(dayIndex => DAYS_OF_WEEK[dayIndex].short)
+      .join(', ');
+
+    return `<p class="scheduled-days-info">Scheduled days: <strong>${scheduledDayNames}</strong></p>`;
   }
 
   updateProgressData(newProgressData) {
@@ -101,8 +135,9 @@ export class CalendarModal {
               ${this.escapeHtml(this.habit.name)}
             </h2>
             <p>${this.escapeHtml(this.habit.description || '')}</p>
+            ${this.getScheduledDaysInfo()}
           </div>
-          <button class="btn-close" aria-label="Zamknij">
+          <button class="btn-close" aria-label="Close">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="6" x2="6" y2="18"/>
               <line x1="6" y1="6" x2="18" y2="18"/>
@@ -127,13 +162,13 @@ export class CalendarModal {
 
         <div class="calendar-container">
           <div class="calendar-header">
-            <button class="calendar-nav-btn" id="prev-month" aria-label="Poprzedni miesiąc">
+            <button class="calendar-nav-btn" id="prev-month" aria-label="Previous month">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="15 18 9 12 15 6"/>
               </svg>
             </button>
             <h3 id="calendar-month">${this.formatMonth(this.currentDate)}</h3>
-            <button class="calendar-nav-btn" id="next-month" aria-label="Następny miesiąc">
+            <button class="calendar-nav-btn" id="next-month" aria-label="Next month">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="9 18 15 12 9 6"/>
               </svg>
@@ -211,12 +246,15 @@ export class CalendarModal {
       const isCompleted = this.isDayCompleted(dateStr);
       const isToday = date.getTime() === today.getTime();
       const isFuture = date > today;
+      const dayOfWeek = date.getDay();
+      const isScheduled = this.isScheduledDay(dayOfWeek);
 
       const dayClass = [
         'calendar-day',
         isCompleted ? 'completed' : '',
         isToday ? 'today' : '',
-        isFuture && !this.isReadOnly ? 'future' : ''
+        isFuture && !this.isReadOnly ? 'future' : '',
+        !isScheduled ? 'not-scheduled' : ''
       ].filter(Boolean).join(' ');
 
       html += `
@@ -224,7 +262,8 @@ export class CalendarModal {
           class="${dayClass}"
           data-date="${dateStr}"
           aria-label="${day} - ${isCompleted ? 'Completed' : 'Not completed'}"
-          ${(this.isReadOnly || isFuture) ? 'disabled' : ''}
+          ${(this.isReadOnly || isFuture || !isScheduled) ? 'disabled' : ''}
+          title="${!isScheduled ? 'Habit not scheduled on this day' : ''}\"
         >
           <span class="day-number">${day}</span>
           ${isCompleted ? '<span class="day-check">✓</span>' : ''}
@@ -283,7 +322,7 @@ export class CalendarModal {
   }
 
   formatMonth(date) {
-    return date.toLocaleDateString('pl-PL', { month: 'long', year: 'numeric' });
+    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
   }
 
   getHabitStats() {

@@ -46,7 +46,7 @@ export const shareService = {
         isReadOnly: true
       };
     } catch (error) {
-      console.error('Błąd parsowania linku udostępniania:', error);
+      console.error('Error parsing share link:', error);
       return null;
     }
   },

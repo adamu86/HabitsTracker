@@ -145,7 +145,7 @@ export const analyticsService = {
 
       stats.push({
         date: dateStr,
-        day: date.toLocaleDateString('pl-PL', { weekday: 'short' }),
+        day: date.toLocaleDateString('en-US', { weekday: 'short' }),
         completed,
         total: habits.length
       });

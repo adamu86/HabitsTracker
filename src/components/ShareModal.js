@@ -32,7 +32,7 @@ export class ShareModal {
             </h2>
             <p>Copy the link below to share your habits progress with others.</p>
           </div>
-          <button class="btn-close" aria-label="Zamknij">
+          <button class="btn-close" aria-label="Close">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="6" x2="6" y2="18"/>
               <line x1="6" y1="6" x2="18" y2="18"/>
@@ -61,7 +61,7 @@ export class ShareModal {
               value="${shareLink}"
               readonly
               id="share-link-input"
-              aria-label="Link do udostępnienia"
+              aria-label="Share link"
             />
             <button class="btn btn-primary" id="copy-btn">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -119,7 +119,7 @@ export class ShareModal {
           `;
         }, 2000);
       } catch (error) {
-        console.error('Błąd podczas kopiowania:', error);
+        console.error('Error while copying:', error);
         linkInput.select();
         document.execCommand('copy');
       }

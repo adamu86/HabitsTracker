@@ -270,6 +270,13 @@ body.theme-light {
   opacity: 0.7;
 }
 
+.habit-info p.scheduled-days {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
 .habit-actions {
   display: flex;
   gap: var(--spacing-xs);
@@ -326,7 +333,7 @@ body.theme-light {
 }
 
 .day-button .day-label {
-  font-size: 0.625rem;
+  font-size: 1rem;
   opacity: 0.7;
   margin-bottom: 0.25rem;
 }
@@ -374,6 +381,16 @@ body.theme-light {
 .day-button:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+.day-button.not-scheduled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  opacity: 0.2;
+}
+
+.day-button.not-scheduled:hover {
+  transform: none;
 }
 
 .sidebar {
@@ -508,7 +525,7 @@ body.theme-light {
 .modal {
   border-radius: var(--radius-xl);
   padding: var(--spacing-xl);
-  max-width: 500px;
+  max-width: 700px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
@@ -693,6 +710,55 @@ body.theme-light {
 }
 
 .category-option:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.day-option {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 2px solid;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.theme-dark .day-option {
+  border-color: var(--color-border-dark);
+  background-color: rgba(255, 255, 255, 0.02);
+  color: var(--color-text-primary-dark);
+}
+
+.theme-light .day-option {
+  border-color: var(--color-border-light);
+  background-color: white;
+  color: var(--color-text-primary-light);
+}
+
+.day-option:hover {
+  transform: translateY(-2px);
+}
+
+.day-option.selected {
+  border-color: var(--color-blue);
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--color-blue);
+  font-weight: 700;
+}
+
+.day-option:focus-visible {
   outline: 2px solid var(--color-blue);
   outline-offset: 2px;
 }
@@ -1080,6 +1146,16 @@ body.theme-light {
   cursor: not-allowed;
 }
 
+.calendar-day.not-scheduled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  opacity: 0.2;
+}
+
+.calendar-day.not-scheduled:hover {
+  transform: none;
+}
+
 .day-number {
   font-weight: 600;
 }
@@ -1087,6 +1163,17 @@ body.theme-light {
 .day-check {
   font-size: 1.25rem;
   line-height: 1;
+}
+
+.scheduled-days-info {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.scheduled-days-info strong {
+  color: var(--color-blue);
 }
 
 .calendar-legend {

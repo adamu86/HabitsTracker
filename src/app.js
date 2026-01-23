@@ -40,8 +40,8 @@ export class App {
       this.habits = await habitService.getAllHabits();
       this.progress = await progressService.getProgress();
     } catch (error) {
-      console.error('Błąd podczas wczytywania danych:', error);
-      alert('Wystąpił błąd podczas wczytywania danych. Odśwież stronę.');
+      console.error('Error while loading data:', error);
+      alert('An error occurred while loading data. Refresh the page.');
     }
   }
 
@@ -82,7 +82,7 @@ export class App {
         </div>
       </div>
       <div class="header-actions">
-        <button class="btn btn-icon" id="theme-toggle" aria-label="Przełącz motyw">
+        <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle theme">
           ${theme === 'dark' ? `
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="5"/>
@@ -102,7 +102,7 @@ export class App {
           `}
         </button>
         ${!this.isReadOnly ? `
-          <button class="btn btn-icon" id="export-btn" aria-label="Eksportuj nawyki">
+          <button class="btn btn-icon" id="export-btn" aria-label="Export habits">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="8 17 12 21 16 17"/>
               <line x1="12" y1="12" x2="12" y2="21"/>
@@ -464,8 +464,8 @@ export class App {
       await habitService.deleteHabit(habitId);
       await this.handleUpdate();
     } catch (error) {
-      console.error('Błąd podczas usuwania nawyku:', error);
-      alert('Nie udało się usunąć nawyku. Spróbuj ponownie.');
+      console.error('Error while deleting habit:', error);
+      alert('Failed to delete habit. Try again.');
     }
   }
 
