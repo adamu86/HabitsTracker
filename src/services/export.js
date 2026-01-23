@@ -9,6 +9,7 @@ export const exportService = {
         category: h.category,
         color: h.color,
         icon: h.icon,
+        scheduled_days: h.scheduled_days || [0, 1, 2, 3, 4, 5, 6],
         createdAt: h.created_at
       })),
       progress: progress.map(p => ({
@@ -28,5 +29,39 @@ export const exportService = {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  },
+
+  importFromJSON(jsonString) {
+    try {
+      const data = JSON.parse(jsonString);
+      
+      if (!data.habits || !Array.isArray(data.habits)) {
+        throw new Error('Invalid JSON: missing habits array');
+      }
+      if (!data.progress || !Array.isArray(data.progress)) {
+        throw new Error('Invalid JSON: missing progress array');
+      }
+
+      // Normalize habits for database insertion
+      const habits = data.habits.map(h => ({
+        name: h.name,
+        description: h.description,
+        category: h.category,
+        color: h.color,
+        icon: h.icon,
+        scheduled_days: h.scheduled_days || [0, 1, 2, 3, 4, 5, 6]
+      }));
+
+      // Normalize progress for database insertion (will be matched by habit name)
+      const progress = data.progress.map(p => ({
+        habitId: p.habitId,
+        date: p.date,
+        done: p.done
+      }));
+
+      return { habits, progress };
+    } catch (error) {
+      throw new Error(`Failed to import JSON: ${error.message}`);
+    }
   }
 };
