@@ -406,6 +406,27 @@ export class HabitModal {
         // Select the new color
         this.formData.color = customColor;
 
+        // Re-render color grid to show new color
+        const colorGrid = overlay.querySelector('#color-grid');
+        colorGrid.innerHTML = this.getAvailableColors().map(color => `
+          <button
+            type="button"
+            class="color-option ${color === this.formData.color ? 'selected' : ''}"
+            style="background-color: ${color}"
+            data-color="${color}"
+            aria-label="Color ${color}"
+          ></button>
+        `).join('') + `
+          <button
+            type="button"
+            class="color-option add-color"
+            id="add-color-btn"
+            title="Add custom color"
+          >
+            <span class="add-icon">➕</span>
+          </button>
+        `;
+
         // Reset form
         overlay.querySelector('#color-picker-form').style.display = 'none';
         overlay.querySelector('#custom-color-hex').value = colorInput.value;
@@ -467,6 +488,30 @@ export class HabitModal {
         // Select the new category
         this.formData.category = categoryName;
         this.formData.icon = selectedNewIcon;
+
+        // Re-render category grid to show new category
+        const categoryGrid = overlay.querySelector('#category-grid');
+        categoryGrid.innerHTML = this.getAvailableCategories().map(cat => `
+          <button
+            type="button"
+            class="category-option ${cat.name === this.formData.category ? 'selected' : ''}"
+            data-category="${cat.name}"
+            data-icon="${cat.icon}"
+          >
+            <span class="icon">${cat.icon}</span>
+            <span>${cat.name}</span>
+          </button>
+        `).join('') + `
+          <button
+            type="button"
+            class="category-option add-category"
+            id="add-category-btn"
+            title="Add new category"
+          >
+            <span class="icon">➕</span>
+            <span>New</span>
+          </button>
+        `;
 
         // Reset form
         overlay.querySelector('#new-category-form').style.display = 'none';
