@@ -339,11 +339,14 @@ export class HabitModal {
     const descInput = overlay.querySelector('#habit-description');
     const closeBtn = overlay.querySelector('.btn-close');
     const cancelBtn = overlay.querySelector('#cancel-btn');
-    const colorOptions = overlay.querySelectorAll('.color-option:not(.add-color)');
-    const addColorBtn = overlay.querySelector('#add-color-btn');
-    const categoryOptions = overlay.querySelectorAll('.category-option:not(.add-category)');
-    const addCategoryBtn = overlay.querySelector('#add-category-btn');
+    const colorInput = overlay.querySelector('#custom-color-input');
+    const colorHexInput = overlay.querySelector('#custom-color-hex');
+    const cancelColorBtn = overlay.querySelector('#cancel-color-btn');
+    const saveColorBtn = overlay.querySelector('#save-color-btn');
+    const cancelCategoryBtn = overlay.querySelector('#cancel-category-btn');
+    const saveCategoryBtn = overlay.querySelector('#save-category-btn');
     const dayOptions = overlay.querySelectorAll('.day-option');
+    const iconOptions = overlay.querySelectorAll('.icon-option');
 
     let selectedNewIcon = '🎯';
 
@@ -355,26 +358,10 @@ export class HabitModal {
       this.formData.description = e.target.value;
     });
 
-    // Color picker
-    colorOptions.forEach(btn => {
-      btn.addEventListener('click', () => {
-        colorOptions.forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        this.formData.color = btn.dataset.color;
-      });
-    });
-
-    // Add color button
-    addColorBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const form = overlay.querySelector('#color-picker-form');
-      form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    });
+    // Attach color listeners with context menu support
+    this.attachColorListeners(overlay);
 
     // Color input sync
-    const colorInput = overlay.querySelector('#custom-color-input');
-    const colorHexInput = overlay.querySelector('#custom-color-hex');
-
     if (colorInput && colorHexInput) {
       colorInput.addEventListener('input', (e) => {
         colorHexInput.value = e.target.value;
@@ -389,7 +376,6 @@ export class HabitModal {
     }
 
     // Cancel color picker
-    const cancelColorBtn = overlay.querySelector('#cancel-color-btn');
     if (cancelColorBtn) {
       cancelColorBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -398,7 +384,6 @@ export class HabitModal {
     }
 
     // Save custom color
-    const saveColorBtn = overlay.querySelector('#save-color-btn');
     if (saveColorBtn) {
       saveColorBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -421,79 +406,19 @@ export class HabitModal {
         // Select the new color
         this.formData.color = customColor;
 
-        // Re-render color grid
-        const colorGrid = overlay.querySelector('#color-grid');
-        colorGrid.innerHTML = this.getAvailableColors().map(color => `
-          <button
-            type="button"
-            class="color-option ${color === this.formData.color ? 'selected' : ''}"
-            style="background-color: ${color}"
-            data-color="${color}"
-            aria-label="Color ${color}"
-          ></button>
-        `).join('') + `
-          <button
-            type="button"
-            class="color-option add-color"
-            id="add-color-btn"
-            title="Add custom color"
-          >
-            <span class="add-icon">➕</span>
-          </button>
-        `;
-
-        // Re-attach color option listeners
-        const newColorOptions = overlay.querySelectorAll('.color-option:not(.add-color)');
-        newColorOptions.forEach(btn => {
-          btn.addEventListener('click', () => {
-            newColorOptions.forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            this.formData.color = btn.dataset.color;
-          });
-        });
-
-        // Re-attach add color button
-        const newAddColorBtn = overlay.querySelector('#add-color-btn');
-        if (newAddColorBtn) {
-          newAddColorBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const form = overlay.querySelector('#color-picker-form');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-          });
-        }
-
         // Reset form
         overlay.querySelector('#color-picker-form').style.display = 'none';
         overlay.querySelector('#custom-color-hex').value = colorInput.value;
+        
+        // Re-attach all color listeners with context menu support
+        this.attachColorListeners(overlay);
       });
     }
 
-    categoryOptions.forEach(btn => {
-      btn.addEventListener('click', () => {
-        categoryOptions.forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        this.formData.category = btn.dataset.category;
-        this.formData.icon = btn.dataset.icon;
-      });
-    });
-
-    // Add category button
-    if (addCategoryBtn) {
-      addCategoryBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const form = overlay.querySelector('#new-category-form');
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-        // Set initial icon selection
-        const firstIcon = overlay.querySelector('.icon-option');
-        if (firstIcon) {
-          selectedNewIcon = firstIcon.dataset.icon;
-          firstIcon.classList.add('selected');
-        }
-      });
-    }
+    // Attach category listeners with context menu support
+    this.attachCategoryListeners(overlay, iconOptions, selectedNewIcon);
 
     // Icon picker
-    const iconOptions = overlay.querySelectorAll('.icon-option');
     iconOptions.forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -504,7 +429,6 @@ export class HabitModal {
     });
 
     // Cancel category creation
-    const cancelCategoryBtn = overlay.querySelector('#cancel-category-btn');
     if (cancelCategoryBtn) {
       cancelCategoryBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -515,7 +439,6 @@ export class HabitModal {
     }
 
     // Save new category
-    const saveCategoryBtn = overlay.querySelector('#save-category-btn');
     if (saveCategoryBtn) {
       saveCategoryBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -545,63 +468,13 @@ export class HabitModal {
         this.formData.category = categoryName;
         this.formData.icon = selectedNewIcon;
 
-        // Re-render category grid
-        const categoryGrid = overlay.querySelector('#category-grid');
-        categoryGrid.innerHTML = this.getAvailableCategories().map(cat => `
-          <button
-            type="button"
-            class="category-option ${cat.name === this.formData.category ? 'selected' : ''}"
-            data-category="${cat.name}"
-            data-icon="${cat.icon}"
-          >
-            <span class="icon">${cat.icon}</span>
-            <span>${cat.name}</span>
-          </button>
-        `).join('') + `
-          <button
-            type="button"
-            class="category-option add-category"
-            id="add-category-btn-new"
-            title="Add new category"
-          >
-            <span class="icon">➕</span>
-            <span>New</span>
-          </button>
-        `;
-
-        // Re-attach category option listeners
-        const newCategoryOptions = overlay.querySelectorAll('.category-option:not(.add-category)');
-        newCategoryOptions.forEach(btn => {
-          btn.addEventListener('click', () => {
-            newCategoryOptions.forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            this.formData.category = btn.dataset.category;
-            this.formData.icon = btn.dataset.icon;
-          });
-        });
-
-
-
-        // Re-attach add category button with proper handler
-        const newAddCategoryBtn = overlay.querySelector('#add-category-btn-new');
-        if (newAddCategoryBtn) {
-          newAddCategoryBtn.id = 'add-category-btn';
-          newAddCategoryBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const form = overlay.querySelector('#new-category-form');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-            const firstIcon = overlay.querySelector('.icon-option');
-            if (firstIcon) {
-              selectedNewIcon = firstIcon.dataset.icon;
-              firstIcon.classList.add('selected');
-            }
-          });
-        }
-
         // Reset form
         overlay.querySelector('#new-category-form').style.display = 'none';
         overlay.querySelector('#new-category-name').value = '';
         overlay.querySelectorAll('.icon-option').forEach(b => b.classList.remove('selected'));
+        
+        // Re-attach all category listeners with context menu support
+        this.attachCategoryListeners(overlay, iconOptions, selectedNewIcon);
       });
     }
 
@@ -661,6 +534,134 @@ export class HabitModal {
     cancelBtn.addEventListener('click', this.onClose);
 
     document.addEventListener('keydown', this.handleEscape);
+  }
+
+  attachColorListeners(overlay) {
+    const colorOptions = overlay.querySelectorAll('.color-option:not(.add-color)');
+    const addColorBtn = overlay.querySelector('#add-color-btn');
+    
+    colorOptions.forEach(btn => {
+      btn.addEventListener('click', () => {
+        colorOptions.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        this.formData.color = btn.dataset.color;
+      });
+      
+      // Right-click context menu
+      btn.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        const color = btn.dataset.color;
+        
+        if (!COLORS.includes(color)) {
+          if (confirm(`Delete this color (${color})?`)) {
+            const custom = this.getCustomColors();
+            const filtered = custom.filter(c => c !== color);
+            localStorage.setItem('custom_colors', JSON.stringify(filtered));
+            
+            if (this.formData.color === color) {
+              this.formData.color = COLORS[0];
+            }
+            
+            const colorGrid = overlay.querySelector('#color-grid');
+            colorGrid.innerHTML = this.getAvailableColors().map(color => `
+              <button
+                type="button"
+                class="color-option ${color === this.formData.color ? 'selected' : ''}"
+                style="background-color: ${color}"
+                data-color="${color}"
+                aria-label="Color ${color}"
+              ></button>
+            `).join('') + `
+              <button
+                type="button"
+                class="color-option add-color"
+                id="add-color-btn"
+                title="Add custom color"
+              >
+                <span class="add-icon">➕</span>
+              </button>
+            `;
+            
+            this.attachColorListeners(overlay);
+          }
+        }
+      });
+    });
+    
+    if (addColorBtn) {
+      addColorBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const form = overlay.querySelector('#color-picker-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      });
+    }
+  }
+
+  attachCategoryListeners(overlay, iconOptions, selectedNewIcon) {
+    const categoryOptions = overlay.querySelectorAll('.category-option:not(.add-category)');
+    const addCategoryBtn = overlay.querySelector('#add-category-btn');
+    
+    categoryOptions.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryOptions.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        this.formData.category = btn.dataset.category;
+        this.formData.icon = btn.dataset.icon;
+      });
+      
+      // Right-click context menu
+      btn.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        const categoryName = btn.dataset.category;
+        const isDefault = ['Wellness', 'Learning', 'Fitness', 'Health', 'Productivity', 'Other'].includes(categoryName);
+        
+        if (!isDefault) {
+          if (confirm(`Delete "${categoryName}" category?`)) {
+            const custom = this.getCustomCategories();
+            const filtered = custom.filter(c => c.name !== categoryName);
+            localStorage.setItem('custom_categories', JSON.stringify(filtered));
+            
+            if (this.formData.category === categoryName) {
+              this.formData.category = 'Wellness';
+              this.formData.icon = '🧘';
+            }
+            
+            const categoryGrid = overlay.querySelector('#category-grid');
+            categoryGrid.innerHTML = this.getAvailableCategories().map(cat => `
+              <button
+                type="button"
+                class="category-option ${cat.name === this.formData.category ? 'selected' : ''}"
+                data-category="${cat.name}"
+                data-icon="${cat.icon}"
+              >
+                <span class="icon">${cat.icon}</span>
+                <span>${cat.name}</span>
+              </button>
+            `).join('') + `
+              <button
+                type="button"
+                class="category-option add-category"
+                id="add-category-btn"
+                title="Add new category"
+              >
+                <span class="icon">➕</span>
+                <span>New</span>
+              </button>
+            `;
+            
+            this.attachCategoryListeners(overlay, iconOptions, selectedNewIcon);
+          }
+        }
+      });
+    });
+    
+    if (addCategoryBtn) {
+      addCategoryBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const form = overlay.querySelector('#new-category-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      });
+    }
   }
 
   handleEscape = (e) => {
