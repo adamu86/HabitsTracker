@@ -123,10 +123,6 @@
                         <p>Wykresy pokazujące postępy, streak'ów i statystyki w zależności od czasu. Analizuj swoje dane w różnych przedziałach czasowych.</p>
                     </div>
                     <div class="feature-card">
-                        <h4>Sortowanie nawyków</h4>
-                        <p>Sortuj nawyki według nazwy, kategorii lub daty utworzenia. Ustawienie jest pamiętane w localStorage.</p>
-                    </div>
-                    <div class="feature-card">
                         <h4>Kalendarz interaktywny</h4>
                         <p>Przeglądaj całą historię nawyków w formacie kalendarza. Szybko zobacz, które dni były produktywne.</p>
                     </div>
@@ -201,6 +197,19 @@
                         <li><strong>Tailwind CSS</strong> - Styling</li>
                         <li><strong>Vite</strong> - Build tool i dev server</li>
                     </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>Przechowywanie danych lokalnych</h3>
+                    <p>Aplikacja używa <strong>localStorage</strong> do przechowywania preferencji użytkownika po stronie klienta:</p>
+                    <ul>
+                        <li><code>custom_categories</code> - tablica customowych kategorii nawyków (JSON). Format: <code>[{name, icon, created_at}, ...]</code></li>
+                        <li><code>custom_colors</code> - tablica customowych kolorów (JSON). Format: <code>["#RRGGBB", ...]</code></li>
+                        <li><code>habitsTracker:theme</code> - wybrana preferencja motywu: <code>'dark'</code> lub <code>'light'</code></li>
+                    </ul>
+                    <p style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+                        <strong>Ważne:</strong> Dane w localStorage są przechowywane tylko na urządzeniu użytkownika. Jeśli użytkownik wyczyści historię przeglądarki lub zmieni urządzenie, customowe kategorie i kolory zostaną utracone. Nawyki są zapisywane w Supabase i są dostępne z każdego urządzenia.
+                    </p>
                 </div>
             </section>
 
@@ -308,6 +317,11 @@
                                 <td><code>icon</code></td>
                                 <td>text</td>
                                 <td>Emoji lub identyfikator ikony (opcjonalnie)</td>
+                            </tr>
+                            <tr>
+                                <td><code>scheduled_days</code></td>
+                                <td>jsonb</td>
+                                <td>Tablica indeksów dni tygodnia [0-6] gdzie 0=poniedziałek, 6=niedziela. Domyślnie: [0,1,2,3,4,5,6] (codziennie)</td>
                             </tr>
                             <tr>
                                 <td><code>created_at</code></td>
