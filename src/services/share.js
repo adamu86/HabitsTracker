@@ -7,7 +7,8 @@ export const shareService = {
         description: h.description,
         category: h.category,
         color: h.color,
-        icon: h.icon
+        icon: h.icon,
+        scheduled_days: h.scheduled_days || [0, 1, 2, 3, 4, 5, 6]
       })),
       progress: progress.map(p => ({
         habit_id: p.habit_id,
