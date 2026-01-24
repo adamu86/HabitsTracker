@@ -255,22 +255,22 @@ export class App {
       });
     }
 
+    const docsBtn = document.getElementById('docs-btn');
+    if (docsBtn) {
+      docsBtn.addEventListener('click', () => {
+        const basePath = window.basePath || './';
+        window.open(`${basePath}docs`, '_blank');
+      });
+    }
+
     if (!this.isReadOnly) {
       const addBtn = document.getElementById('add-habit-btn');
       const emptyAddBtn = document.getElementById('empty-add-btn');
       const exportBtn = document.getElementById('export-btn');
-      const docsBtn = document.getElementById('docs-btn');
       const shareBtn = document.getElementById('share-btn');
 
       if (addBtn) {
         addBtn.addEventListener('click', () => this.openAddModal());
-      }
-
-      if (docsBtn) {
-        docsBtn.addEventListener('click', () => {
-          const basePath = window.basePath || './';
-          window.open(`${basePath}docs`, '_blank');
-        });
       }
 
       if (emptyAddBtn) {
